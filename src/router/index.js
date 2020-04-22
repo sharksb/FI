@@ -1,12 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
 import login from '@/pages/login'
 import toolbar from '@/components/toolbar'
 import register from '@/pages/register'
 import resetPassword from '@/pages/resetPassword'
 import sendFile from '@/pages/teachers/sendFile'
-import sdfile from '@/components/teachers/sd-file'
+import fileCharge from '@/pages/teachers/fileCharge'
+import reviseWork from '@/pages/teachers/reviseWork'
+import releaseTest from '@/pages/teachers/releaseTest'
+import sdfile from '@/components/teachers/homework_list'
 
 Vue.use(Router)
 
@@ -36,6 +38,21 @@ export default new Router({
       path: '/teachers/sendFile',
       name: 'sendFile',
       component: sendFile
+    },
+    {
+      path: '/teachers/fileCharge',
+      name: 'fileCharge',
+      component: fileCharge
+    },
+    {
+      path: '/teachers/reviseWork',
+      name: 'reviseWork',
+      component: reviseWork
+    },
+    {
+      path: '/teachers/releaseTest',
+      name: 'releaseTest',
+      component: releaseTest
     },
     {
       path: '/teachers/sdfile',

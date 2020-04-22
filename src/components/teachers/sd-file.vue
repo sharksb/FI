@@ -8,7 +8,7 @@
       <van-uploader :after-read="afterRead" deletable v-model="fileList">
         <van-button class="uploaderBut" icon="plus" type="primary"></van-button>
       </van-uploader>
-      <div style="margin: 16px;">
+      <div class="sendFilBut">
         <van-button round block type="info" @click="onSendFile">发送</van-button>
       </div>
    
@@ -41,6 +41,9 @@ export default {
       console.log(this.radio);
     },
     onSendFile(){
+      if(this.radio==="" || this.fileList==[]){
+        console.log("请选择发送文件类型")
+      }
       console.log(this.fileList);
       console.log(this.radio)
     }
@@ -105,6 +108,18 @@ export default {
 }
 .van-uploader__file-name {
   font-size: 16px;
+}
+
+.sendFilBut{
+  display: flex;
+  justify-content: flex-end;
+  width: 65%;
+  margin: 0 auto;
+}
+
+.sendFilBut .van-button{
+  width: 5rem;
+  margin-top: 2rem;
 }
 /*  */
 
