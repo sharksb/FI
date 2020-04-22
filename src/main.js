@@ -5,7 +5,9 @@ import App from './App'
 import router from './router'
 // import Vant from 'vant';
 import 'vant/lib/index.css'
-// Vue.use(Vant)
+import vueAxios from 'vue-axios'
+import axios from 'axios'
+Vue.use(vueAxios, axios)
 
 Vue.config.productionTip = false
 
@@ -13,6 +15,8 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
-  components: { App },
+  components: {
+    App
+  },
   template: '<App/>'
 })

@@ -1,10 +1,10 @@
 <template>
   <div>
-      <van-nav-bar title="登录" left-text="返回" left-arrow  @click-left="onClickLeft"/>
+    <van-nav-bar title="登录" left-text="返回" left-arrow @click-left="onClickLeft" />
     <van-form @submit="onSubmit">
       <van-field
         v-model="username"
-        name="用户名"
+        name="telephone"
         label="用户名"
         placeholder="请输入手机号或者邮箱"
         type="tel"
@@ -13,7 +13,7 @@
       <van-field
         v-model="password"
         type="password"
-        name="密码"
+        name="password"
         label="密码"
         placeholder="密码"
         :rules="[{ required: true, message: '请填写密码' }]"
@@ -43,10 +43,23 @@ export default {
   methods: {
     onSubmit(values) {
       console.log("submit", values);
+      this.axios
+        .post('http://127.0.0.1:3000/userinformation',{
+            username:values.username,
+            password:values.password
+        })
+        .then(response => {
+          // this.content = response.data.bpi;
+          console.log(response.data);
+          console.log("ok");
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     },
-     onClickLeft() {
-      console.log("返回")
-    },
+    onClickLeft() {
+      console.log("返回");
+    }
   }
 };
 </script> 
@@ -56,8 +69,8 @@ export default {
   width: 60%;
   margin: 0 auto;
 }
-.van-form{
-    margin-top: 6rem;
+.van-form {
+  margin-top: 6rem;
 }
 </style>
 
