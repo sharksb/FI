@@ -5,8 +5,12 @@
       <van-tab title="发布测试">
         <releasetest></releasetest>
       </van-tab>
-      <van-tab title="测试统计"></van-tab>
-      <van-tab title="测试成绩"></van-tab>
+      <van-tab title="测试统计">
+        <teststatistics></teststatistics>
+      </van-tab>
+      <van-tab title="测试成绩">
+        <teststatistics></teststatistics>
+      </van-tab>
     </van-tabs>
   </div>
 </template>
@@ -14,7 +18,7 @@
 <script>
 import { NavBar, Tab, Tabs } from "vant";
 import releasetest from "@/components/teachers/release_test";
-
+import teststatistics from "@/components/teachers/test_statistics";
 export default {
   data() {
     return {
@@ -25,7 +29,8 @@ export default {
     [NavBar.name]: NavBar,
     [Tab.name]: Tab,
     [Tabs.name]: Tabs,
-    releasetest
+    releasetest,
+    teststatistics
   },
   methods: {
     onClickLeft() {

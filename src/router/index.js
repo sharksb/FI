@@ -8,7 +8,8 @@ import sendFile from '@/pages/teachers/sendFile'
 import fileCharge from '@/pages/teachers/fileCharge'
 import reviseWork from '@/pages/teachers/reviseWork'
 import releaseTest from '@/pages/teachers/releaseTest'
-import sdfile from '@/components/teachers/homework_list'
+import testScore from '@/pages/teachers/testScore'
+import sdfile from '@/components/teachers/test_statistics'
 
 Vue.use(Router)
 
@@ -53,6 +54,11 @@ export default new Router({
       path: '/teachers/releaseTest',
       name: 'releaseTest',
       component: releaseTest
+    },
+    {
+      path: '/teachers/testScore',
+      name: 'testScore',
+      component: testScore
     },
     {
       path: '/teachers/sdfile',
