@@ -1,7 +1,7 @@
 <template>
   <div>
     <van-nav-bar title="发布测试" left-text="返回" left-arrow @click-left="onClickLeft" />
-    <van-tabs v-model="active">
+    <van-tabs v-model="active" color="#1989fa">
       <van-tab title="发布测试">
         <releasetest></releasetest>
       </van-tab>

@@ -67,6 +67,7 @@ export default {
   },
   methods: {
     onClickLeft() {
+        this.$router.go(-1)
       console.log("返回");
     },
     onSubmit(values) {

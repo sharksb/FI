@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="sendFile">
     <van-nav-bar title="发送文件" left-text="返回" left-arrow @click-left="onClickLeft" />
-    <van-tabs v-model="active">
+    <van-tabs v-model="active" color="#1989fa">
       <van-tab title="发送文件"><sdfile></sdfile> </van-tab>
       <van-tab title="文件列表"><filelist></filelist></van-tab>
       <van-tab title="作业列表"><homeworklist></homeworklist> </van-tab>
@@ -11,7 +11,7 @@
 
 <script>
 import { NavBar, Tab, Tabs } from "vant";
-import sdfile from "@/components/teachers/sd-file";
+import sdfile from "@/components/teachers/sd_file";
 import filelist from "@/components/teachers/file_list";
 import homeworklist from "@/components/teachers/homework_list";
 export default {
@@ -35,3 +35,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.sendFile{
+  text-align: center;
+}
+</style>

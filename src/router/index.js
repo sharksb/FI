@@ -10,7 +10,11 @@ import reviseWork from '@/pages/teachers/reviseWork'
 import releaseTest from '@/pages/teachers/releaseTest'
 import testScore from '@/pages/teachers/testScore'
 import reviseDetail from '@/pages/teachers/reviseDetail'
-import sdfile from '@/components/teachers/test_statistics'
+import sdfile from '@/components/teachers/radio_selected'
+
+// 学生
+import handHomework from '@/pages/students/handHomework'
+import chandhomework from '@/components/students/hand_homework'
 
 Vue.use(Router)
 
@@ -70,6 +74,17 @@ export default new Router({
       path: '/teachers/sdfile',
       name: 'sdfile',
       component: sdfile
+    },
+
+    {
+      path: '/students/handHomework',
+      name: 'handHomework',
+      component: handHomework
+    },
+    {
+      path: '/students/chandhomework',
+      name: 'chandhomework',
+      component: chandhomework
     },
   ]
 })
