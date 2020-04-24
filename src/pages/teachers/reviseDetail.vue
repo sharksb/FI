@@ -67,7 +67,7 @@ export default {
   },
   methods: {
     onClickLeft() {
-        this.$router.go(-1)
+      this.$router.go(-1)
       console.log("返回");
     },
     onSubmit(values) {
@@ -96,7 +96,7 @@ export default {
   font-size: 16px;
 }
 .revisedel_content {
-  padding: 15px;
+  padding: 0 15px 10px 15px;
 }
 .van-panel__footer {
   display: flex;

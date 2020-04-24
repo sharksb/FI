@@ -1,9 +1,12 @@
 <template>
-  <div class="handHomework">
-    <van-nav-bar title="上交作业" left-text="返回" left-arrow @click-left="onClickLeft" />
+  <div class="classTest">
+    <van-nav-bar title="课堂测试" left-text="返回" left-arrow @click-left="onClickLeft" />
     <van-tabs v-model="active" color="#1989fa">
-      <van-tab title="提交作业">
-        <handdhomework></handdhomework>
+      <van-tab title="课堂测试">
+          <classTest></classTest>
+      </van-tab>
+      <van-tab title="文件列表">
+         <testList></testList>
       </van-tab>
     </van-tabs>
   </div>
@@ -11,7 +14,8 @@
 
 <script>
 import { NavBar, Tab, Tabs } from "vant";
-import handdhomework from "@/components/students/hand_homework";
+import classTest from "@/components/students/class_test";
+import testList from "@/components/students/test_list";
 export default {
   data() {
     return {
@@ -22,7 +26,8 @@ export default {
     [NavBar.name]: NavBar,
     [Tab.name]: Tab,
     [Tabs.name]: Tabs,
-    handdhomework
+    classTest,
+    testList
   },
   methods: {
     onClickLeft() {
@@ -33,7 +38,5 @@ export default {
 </script>
 
 <style>
-.van-tabs__line{
-  width: 100% !important;
-}
+
 </style>

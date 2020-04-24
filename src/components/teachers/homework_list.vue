@@ -16,8 +16,7 @@
         <van-progress
           :percentage="homework.chargePercent"
           stroke-width="14"
-          show-pivot="false"
-          track-color
+          :show-pivot="false"
         />
       </div>
       <div class="homework_charge">
@@ -30,8 +29,7 @@
         <van-progress
           :percentage="homework.revisePercent"
           stroke-width="14"
-          show-pivot="false"
-          track-color
+          :show-pivot="false"
         />
       </div>
     </div>

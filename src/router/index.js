@@ -14,6 +14,11 @@ import sdfile from '@/components/teachers/radio_selected'
 
 // 学生
 import handHomework from '@/pages/students/handHomework'
+import handworkDetail from '@/pages/students/handworkDetail'
+import homeworkDetail from '@/pages/students/homeworkDetail'
+import obtainFile from '@/pages/students/obtainFile'
+import classTest from '@/pages/students/classTest'
+import currentTestAnswer from '@/pages/students/currentTestAnswer'
 import chandhomework from '@/components/students/hand_homework'
 
 Vue.use(Router)
@@ -80,6 +85,31 @@ export default new Router({
       path: '/students/handHomework',
       name: 'handHomework',
       component: handHomework
+    },
+    {
+      path: '/students/handworkDetail',
+      name: 'handworkDetail',
+      component: handworkDetail
+    },
+    {
+      path: '/students/homeworkDetail',
+      name: 'homeworkDetail',
+      component: homeworkDetail
+    },
+    {
+      path: '/students/obtainFile',
+      name: 'obtainFile',
+      component: obtainFile
+    },
+    {
+      path: '/students/classTest',
+      name: 'classTest',
+      component: classTest
+    },
+    {
+      path: '/students/currentTestAnswer',
+      name: 'currentTestAnswer',
+      component: currentTestAnswer
     },
     {
       path: '/students/chandhomework',
