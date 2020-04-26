@@ -32,8 +32,8 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .van-tabs__line{
   width: 100% !important;
 }
-</style>
+</style>>

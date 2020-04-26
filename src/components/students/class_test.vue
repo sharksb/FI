@@ -1,6 +1,6 @@
 <template>
   <div class="classtest">
-      <van-button round block >进入当前测试</van-button>
+      <van-button round block to="/students/currentTest">进入当前测试</van-button>
       <p>2020-01-17</p>
   </div>
 </template>

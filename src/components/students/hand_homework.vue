@@ -29,7 +29,7 @@
         </template>
         <div class="hwcon_content">
           <h3>截止日期：2020-02-15</h3>
-          <van-button>再次提交</van-button>
+          <van-button to="/students/handworkDetail">再次提交</van-button>
         </div>
       </van-panel>
 

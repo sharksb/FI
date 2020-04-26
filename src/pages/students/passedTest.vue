@@ -1,15 +1,10 @@
 <template>
   <div class="currentTest">
-    <van-nav-bar title="当前测试" left-text="课堂测试" left-arrow @click-left="onClickLeft" />
-    <van-count-down :time="time" format="mm:ss"  @finish="finish">
-      <template v-slot="timeData">
-        <span class="item">{{ timeData.minutes }}</span>:
-        <span class="item">{{ timeData.seconds }}</span>
-      </template>
-    </van-count-down>
+    <van-nav-bar title="第四章测试" left-text="测试列表" left-arrow @click-left="onClickLeft" />
+
      <van-form @submit="onSubmit">
     <studentTest></studentTest>
-     <van-button native-type="submit" type="info" block>提交</van-button>
+     <van-button native-type="submit" type="info" block>重新测试</van-button>
      </van-form>
   </div>
 </template>
@@ -36,14 +31,9 @@ export default {
       this.$router.go(-1);
     },
 
-    finish(){
-         Toast('测试时间已到');
-        //  setTimeout(()=>{
-        //       this.$router.go(-1);
-        //  },2000)
-    },
+
      onSubmit(values){
-          Toast('提交成功');
+          Toast('当前测试不计入成绩');
          setTimeout(()=>{
               this.$router.go(-1);
          },2000)

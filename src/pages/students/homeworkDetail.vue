@@ -68,6 +68,7 @@ export default {
 .van-cell-group {
   width: 90%;
   margin: 0 auto;
+  text-align: left;
 }
 .van-cell__title span {
   font-size: 16px;
