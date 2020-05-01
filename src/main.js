@@ -3,11 +3,13 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-// import Vant from 'vant';
 import 'vant/lib/index.css'
 import vueAxios from 'vue-axios'
 import axios from 'axios'
+import echarts from 'echarts'
+import '@/assets/font/iconfont.css';
 Vue.use(vueAxios, axios)
+Vue.prototype.$echarts = echarts
 
 Vue.config.productionTip = false
 

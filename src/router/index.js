@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import login from '@/pages/login'
 import toolbar from '@/components/toolbar'
 import register from '@/pages/register'
+import index from '@/pages/index'
 import resetPassword from '@/pages/resetPassword'
 import sendFile from '@/pages/teachers/sendFile'
 import fileCharge from '@/pages/teachers/fileCharge'
@@ -32,8 +33,13 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'toolbar',
-      component: toolbar
+      name: 'index',
+      component: index
+    },
+    {
+      path: '/index',
+      name: 'index',
+      component: index
     },
     {
       path: '/login',
