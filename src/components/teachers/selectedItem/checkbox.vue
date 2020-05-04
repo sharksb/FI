@@ -43,7 +43,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .teachertest_content {
   display: flex;
   flex-wrap: wrap;
@@ -56,7 +56,7 @@ export default {
     width: 95px;
 }
 
-.van-cell__title {
+.checkbox .van-cell__title {
   width: 35px;
 }
 </style>

@@ -97,6 +97,7 @@ export default {
      console.log("下载班级")
     },
     checkButton() {
+      this.$router.push({path:'/teachers/reviseDetail'})
       console.log("查看");
     },
     uploadButton() {

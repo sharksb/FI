@@ -39,7 +39,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .radioTitle .van-cell__title{
     width: 95px;
 }
@@ -53,7 +53,7 @@ export default {
   width: 50%;
 }
 
-.van-cell__title {
+.radio .van-cell__title {
   width: 35px;
 }
 </style>

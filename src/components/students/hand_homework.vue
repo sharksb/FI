@@ -107,6 +107,10 @@ h3{
     justify-content: space-between;
     align-items: center;
 }
+.hwcon_content button {
+  border-radius: 15px;
+  margin: 1rem 0;
+}
 .van-cell-group{
     margin-bottom: 2rem;
 }

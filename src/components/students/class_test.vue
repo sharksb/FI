@@ -20,13 +20,13 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .classtest{
     width: 80%;
     margin: 0 auto;
     margin-top: 8rem;
 }
-p{
+.classtest p{
     text-align: center;
     margin-top: 2rem;
 }

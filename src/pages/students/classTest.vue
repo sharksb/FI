@@ -2,10 +2,10 @@
   <div class="classTest">
     <van-nav-bar title="课堂测试" left-text="返回" left-arrow @click-left="onClickLeft" />
     <van-tabs v-model="active" color="#1989fa">
-      <van-tab title="课堂测试">
+      <van-tab title="课堂测试" name="currentTest">
           <classTest></classTest>
       </van-tab>
-      <van-tab title="文件列表">
+      <van-tab title="测试列表" name="passedTest">
          <testList></testList>
       </van-tab>
     </van-tabs>
@@ -29,9 +29,12 @@ export default {
     classTest,
     testList
   },
+  beforeMount(){
+    this.active = this.$route.query.active
+  },
   methods: {
     onClickLeft() {
-      console.log("返回");
+      this.$router.go(-1);
     }
   }
 };

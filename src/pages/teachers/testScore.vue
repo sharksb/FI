@@ -97,7 +97,7 @@ export default {
   },
   methods: {
     onClickLeft() {
-      console.log("返回");
+      this.$router.push({path:'/teachers/releaseTest',query:{active:'testScore'}})
     },
     uploadAllButton() {
       console.log("一键下载");

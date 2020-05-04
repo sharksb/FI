@@ -45,7 +45,7 @@ export default {
   margin-top: 1rem;
 }
 
-.van-button {
+.studentTest .van-button {
     width: 60%;
     margin: 2rem auto;
     border-radius: 20px;

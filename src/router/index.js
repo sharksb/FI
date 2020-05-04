@@ -1,9 +1,18 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import login from '@/pages/login'
-import toolbar from '@/components/toolbar'
 import register from '@/pages/register'
+
 import index from '@/pages/index'
+import person from '@/pages/person/person'
+
+import sfeature from '@/pages/students/feature'
+import tfeature from '@/pages/teachers/feature'
+
+import platform from '@/pages/platform/platform'
+import platformDetail from '@/pages/platform/platformDetail'
+import informationDetail from '@/pages/platform/informationDetail'
+
 import resetPassword from '@/pages/resetPassword'
 import sendFile from '@/pages/teachers/sendFile'
 import fileCharge from '@/pages/teachers/fileCharge'
@@ -37,9 +46,19 @@ export default new Router({
       component: index
     },
     {
+      path: '/',
+      name: 'index',
+      component: index
+    },
+    {
       path: '/index',
       name: 'index',
       component: index
+    },
+    {
+      path: '/personCneter',
+      name: 'person',
+      component: person
     },
     {
       path: '/login',
@@ -56,6 +75,39 @@ export default new Router({
       name: 'resetPassword',
       component: resetPassword
     },
+
+    //  学生功能界面
+    {
+      path: '/sfeature',
+      name: 'sfeature',
+      component: sfeature
+    },
+    {
+      path: '/tfeature',
+      name: 'tfeature',
+      component: tfeature
+    },
+
+    // 论坛
+    {
+      path: '/platform',
+      name: 'platform',
+      component: platform
+    },
+    {
+      path: '/platformDetail',
+      name: 'platformDetail',
+      component: platformDetail
+    },
+    {
+      path: '/informationDetail',
+      name: 'informationDetail',
+      component: informationDetail
+    },
+
+
+
+
     {
       path: '/teachers/sendFile',
       name: 'sendFile',

@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { NavBar, Panel, Button, Field, Form } from "vant";
+import { NavBar, Panel, Button, Field, Form, Toast } from "vant";
 export default {
   data() {
     return {
@@ -67,23 +67,27 @@ export default {
   },
   methods: {
     onClickLeft() {
-      this.$router.go(-1)
+      this.$router.go(-1);
       console.log("返回");
     },
     onSubmit(values) {
       console.log("submit", values);
+      Toast("提交成功");
+      setTimeout(()=>{
+         this.$router.go(-1);
+      },2000)
     }
   }
 };
 </script>
 <style>
-.reviseStudent{
-    width: 80%;
-    margin: 2rem auto 1rem auto;
-    display: flex;
+.reviseStudent {
+  width: 80%;
+  margin: 2rem auto 1rem auto;
+  display: flex;
 }
 .reviseStudent span {
-    margin-left: 10px;
+  margin-left: 10px;
 }
 .van-cell-group {
   width: 90%;

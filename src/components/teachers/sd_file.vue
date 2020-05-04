@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { RadioGroup, Radio, Uploader, Button, Form } from "vant";
+import { RadioGroup, Radio, Uploader, Button, Form, Toast } from "vant";
 export default {
   data() {
     return {
@@ -41,11 +41,17 @@ export default {
       console.log(this.radio);
     },
     onSendFile(){
-      if(this.radio==="" || this.fileList==[]){
-        console.log("请选择发送文件类型")
+      if(this.radio===""){
+        Toast("请选择上传类型")
+      }else if(this.fileList.length == 0){
+        Toast("请上传文件")
+      }else{
+         Toast("上传成功")
+         setTimeout(()=>{
+           this.radio = ""
+           this.fileList.length = 0
+         },2000)
       }
-      console.log(this.fileList);
-      console.log(this.radio)
     }
   }
 };

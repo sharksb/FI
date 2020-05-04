@@ -1,9 +1,12 @@
 <template>
   <div class="tclassTestDetail">
     <van-nav-bar title="课堂测试" left-text="发布测试" left-arrow @click-left="onClickLeft" />
-    <ttestRadio></ttestRadio>
-    <ttestCheckbox></ttestCheckbox>
-    <ttestJudgement></ttestJudgement>
+    <div v-for="(count, index) in counts" :key="index">
+      <ttestRadio v-if="count == 'radio'"></ttestRadio>
+      <ttestCheckbox v-if="count == 'checkbox'"></ttestCheckbox>
+      <ttestJudgement v-if="count == 'judgement'"></ttestJudgement>
+    </div>
+
     <!-- 选择 -->
     <div class="testDetail">
       <div class="testDetailSelect">
@@ -22,17 +25,28 @@
             <van-radio name="selfDefine">自定义</van-radio>
           </van-radio-group>
           <div v-if="defineTime">
-            <van-field v-model="timeSelect_time" name="time" placeholder="请输入时间" class="timeSelect_time" />
+            <van-field
+              v-model="timeSelect_time"
+              name="time"
+              placeholder="请输入时间"
+              class="timeSelect_time"
+            />
           </div>
-            <van-field v-model="timeSelect_name" label="测试名称" name="name"  placeholder="请输入测试名称" class="timeSelect_name" />
-          <van-button round   native-type="submit" class="releaseTest_but">发布测试</van-button>
+          <van-field
+            v-model="timeSelect_name"
+            label="测试名称"
+            name="name"
+            placeholder="请输入测试名称"
+            class="timeSelect_name"
+          />
+          <van-button round native-type="submit" class="releaseTest_but">发布测试</van-button>
         </van-form>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { NavBar, RadioGroup, Radio, Form, Button, Field } from "vant";
+import { NavBar, RadioGroup, Radio, Form, Button, Field, Toast } from "vant";
 import ttestRadio from "@/components/teachers/selectedItem/radio";
 import ttestCheckbox from "@/components/teachers/selectedItem/checkbox";
 import ttestJudgement from "@/components/teachers/selectedItem/judgement";
@@ -42,8 +56,9 @@ export default {
       radioSelect: "",
       timeSelect: "",
       timeSelect_time: "",
-      defineTime:false,
-      timeSelect_name:""
+      defineTime: false,
+      timeSelect_name: "",
+      counts: []
     };
   },
   components: {
@@ -59,19 +74,26 @@ export default {
   },
   methods: {
     onClickLeft() {
-      console.log("返回");
+       this.$router.go(-1)
     },
-    onAddOption(values) {
-      console.log(values);
+    onAddOption() {
+      this.counts.push(this.radioSelect);
+      console.log(this.radioSelect);
+      console.log(this.counts);
+      this.radioSelect = ""
     },
     onReleaseTest(values) {
       console.log(values);
+      Toast("发布成功")
+      setTimeout(()=>{
+       this.$router.go(-1)
+      },2000)
     },
     changeRadio(value) {
       if (this.timeSelect == "selfDefine") {
-        this.defineTime = true
-      }else{
-        this.defineTime = false
+        this.defineTime = true;
+      } else {
+        this.defineTime = false;
       }
     }
   }
@@ -104,16 +126,15 @@ export default {
 .timeSelect_time {
   margin-top: 0.5rem;
 }
-.timeSelect_name{
+.timeSelect_name {
   margin-top: 0.8rem;
 }
-.timeSelect_name .van-cell__title{
+.timeSelect_name .van-cell__title {
   width: 70px;
-
 }
 
-.releaseTest_but{
+.releaseTest_but {
   width: 85%;
-  margin:1rem auto;
+  margin: 1rem auto;
 }
 </style>

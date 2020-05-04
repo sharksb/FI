@@ -2,14 +2,14 @@
   <div>
     <van-nav-bar title="发布测试" left-text="返回" left-arrow @click-left="onClickLeft" />
     <van-tabs v-model="active" color="#1989fa">
-      <van-tab title="发布测试">
+      <van-tab title="发布测试" name="releaseTest">
         <releasetest></releasetest>
       </van-tab>
-      <van-tab title="测试统计">
-        <teststatistics></teststatistics>
+      <van-tab title="测试统计" name="testStatis">
+        <teststatistics testtype="testStatis"></teststatistics>
       </van-tab>
-      <van-tab title="测试成绩">
-        <teststatistics></teststatistics>
+      <van-tab title="测试成绩" name="testScore">
+        <teststatistics testtype="testScore"></teststatistics>
       </van-tab>
     </van-tabs>
   </div>
@@ -22,8 +22,11 @@ import teststatistics from "@/components/teachers/test_statistics";
 export default {
   data() {
     return {
-      active: 0
+      active: ""
     };
+  },
+  beforeMount() {
+    this.active = this.$route.query.active;
   },
   components: {
     [NavBar.name]: NavBar,
@@ -34,7 +37,7 @@ export default {
   },
   methods: {
     onClickLeft() {
-      console.log("返回");
+       this.$router.push({ path: "/tfeature" });
     }
   }
 };

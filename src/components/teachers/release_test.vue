@@ -19,6 +19,7 @@ export default {
   methods: {
     releaseTest() {
       console.log("发布测试");
+      this.$router.push({path:'/teachers/tclassTestDetail'})
     }
   }
 };

@@ -20,7 +20,7 @@ import studentTest from "@/components/students/student_test";
 export default {
   data() {
     return {
-      time: 60*60*60
+      time: 30*60*60
     };
   },
   components: {
@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     onClickLeft() {
-      this.$router.go(-1);
+      this.$router.push({ path: "/tfeature" });
     },
 
     finish(){
@@ -45,7 +45,7 @@ export default {
      onSubmit(values){
           Toast('提交成功');
          setTimeout(()=>{
-              this.$router.go(-1);
+              this.$router.push({ path: "/students/currentTestAnswer" });
          },2000)
       }
   }
@@ -68,4 +68,9 @@ export default {
       text-align: center;
       margin: 1rem auto;
   }
+
+.currentTest .van-button {
+  width: 90%;
+  margin: 30px auto 0;
+}
 </style>

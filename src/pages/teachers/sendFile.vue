@@ -2,9 +2,15 @@
   <div class="sendFile">
     <van-nav-bar title="发送文件" left-text="返回" left-arrow @click-left="onClickLeft" />
     <van-tabs v-model="active" color="#1989fa">
-      <van-tab title="发送文件"><sdfile></sdfile> </van-tab>
-      <van-tab title="文件列表"><filelist></filelist></van-tab>
-      <van-tab title="作业列表"><homeworklist></homeworklist> </van-tab>
+      <van-tab title="发送文件" name="sendFile">
+        <sdfile></sdfile>
+      </van-tab>
+      <van-tab title="文件列表" name="fileList">
+        <filelist></filelist>
+      </van-tab>
+      <van-tab title="作业列表" name="homeworkList">
+        <homeworklist></homeworklist>
+      </van-tab>
     </van-tabs>
   </div>
 </template>
@@ -17,7 +23,7 @@ import homeworklist from "@/components/teachers/homework_list";
 export default {
   data() {
     return {
-      active: 0
+      active: ""
     };
   },
   components: {
@@ -28,16 +34,19 @@ export default {
     filelist,
     homeworklist
   },
+  beforeMount() {
+    this.active = this.$route.query.active;
+  },
   methods: {
     onClickLeft() {
-      console.log("返回");
+      this.$router.go(-1);
     }
   }
 };
 </script>
 
 <style scoped>
-.sendFile{
+.sendFile {
   text-align: center;
 }
 </style>

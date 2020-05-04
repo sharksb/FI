@@ -26,14 +26,9 @@ export default {
   },
   methods: {
     onClickLeft() {
-      console.log("返回");
+       this.$router.go(-1);
     }
   }
 };
 </script>
 
-<style>
-.van-tabs__line{
-  width: 100% !important;
-}
-</style>

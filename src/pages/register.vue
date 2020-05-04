@@ -28,7 +28,7 @@
         :rules="[{ required: true, message: '请输入验证码' }]"
       >
         <template #button>
-          <van-button size="small" type="primary">发送验证码</van-button>
+          <van-button size="small" type="primary" native-type="button">{{smsMessage}}</van-button>
         </template>
       </van-field>
 
@@ -67,10 +67,11 @@
 </template>
 
 <script>
-import { Button, Field, Form, NavBar } from "vant";
+import { Button, Field, Form, NavBar, Toast} from "vant";
 export default {
   data() {
     return {
+      smsMessage: "发送验证码",
       username: "",
       password: "",
       sms: "",
@@ -85,11 +86,26 @@ export default {
     [Button.name]: Button,
     [Field.name]: Field,
     [Form.name]: Form,
-    [NavBar.name]: NavBar
+    [NavBar.name]: NavBar,
+    [Toast.name]: Toast
   },
   methods: {
     onRegister(values) {
       console.log("submit", values);
+      if(values){
+        Toast('注册成功')
+         if(values.telephone == '18822103912') {
+          console.log(values.telephone)
+          sessionStorage.setItem("personInfor","student")
+        }else {
+           sessionStorage.setItem("personInfor","teacher")
+        }
+          sessionStorage.setItem("isLogin",true)
+          sessionStorage.setItem("telephone", values.telephone);
+        setTimeout(()=>{
+          this.$router.push({ path: '/index'});
+        },3000)
+      }
     },
     validator(value){
         return this.resetpassword === this.password
@@ -97,6 +113,9 @@ export default {
     onClickLeft() {
       console.log("返回")
     },
+    sendsms() {
+      this.smsMessage = "验证码已发送";
+    }
 
   }
 };

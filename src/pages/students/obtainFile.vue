@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     onClickLeft() {
-      console.log("返回");
+      this.$router.go(-1)
     }
   }
 };

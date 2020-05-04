@@ -13,13 +13,25 @@
 <script>
 import listgraph from "@/components/teachers/list_graph";
 export default {
-  data() {},
+  props: {
+    testtype: String
+  },
+  data() {
+    return {};
+  },
   components: {
     listgraph
   },
   methods: {
     enterTestStatistics() {
-      console.log("进入统计详情页面");
+      if(this.testtype == 'testStatis'){
+        console.log('testStatis')
+        this.$router.push({ path: "/teachers/testStasticDetail" });
+      }else if(this.testtype == 'testScore'){
+         console.log('testScore')
+          this.$router.push({ path: "/teachers/testScore" });
+      }
+      
     }
   }
 };
