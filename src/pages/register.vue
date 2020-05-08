@@ -6,8 +6,17 @@
   left-arrow
   @click-left="onClickLeft"/>
     <van-form @submit="onRegister">
-      <van-field
+       <van-field
         v-model="username"
+        name="username"
+        label="用户名"
+        placeholder="请输入用户名"
+        type="tel"
+        left-icon="phone-o"
+        :rules="[{ required: true, message: '请输入用户名'}]"
+      ></van-field>
+      <van-field
+        v-model="telephone"
         name="telphone"
         label="手机号"
         placeholder="请输入手机号"
@@ -74,6 +83,7 @@ export default {
       smsMessage: "发送验证码",
       username: "",
       password: "",
+      telephone:"",
       sms: "",
       resetpassword:"",
       studentId:"",
@@ -92,8 +102,28 @@ export default {
   methods: {
     onRegister(values) {
       console.log("submit", values);
+      let userName = values.username
+      let telephone = values.telphone
+      let password = values.password
+      let idCard = values.studentId
       if(values){
         Toast('注册成功')
+
+  //       this.axios
+  //       .post('http://localhost:8081/user/register', {
+  //        "userName": userName,
+  //        "telephone": telephone,
+  //        "password":password,
+  //        "idCard":idCard
+  //        })
+  //      .then(function (response) {
+  //       console.log(response);
+  //       })
+  //      .catch(function (error) {
+  //       console.log(error);
+  // });
+
+
          if(values.telephone == '18822103912') {
           console.log(values.telephone)
           sessionStorage.setItem("personInfor","student")
@@ -103,7 +133,7 @@ export default {
           sessionStorage.setItem("isLogin",true)
           sessionStorage.setItem("telephone", values.telephone);
         setTimeout(()=>{
-          this.$router.push({ path: '/index'});
+          this.$router.push({ path: '/'});
         },3000)
       }
     },
@@ -111,7 +141,7 @@ export default {
         return this.resetpassword === this.password
     },
     onClickLeft() {
-      console.log("返回")
+       this.$router.push({ path: "/personCneter" });
     },
     sendsms() {
       this.smsMessage = "验证码已发送";

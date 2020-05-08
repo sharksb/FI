@@ -13,27 +13,17 @@
       </div>
     </div>
 
-        <div class="feature_content">
+    <div class="feature_content" v-if="isLogin">
       <div class="featurecon_title">
         <img src="@/assets/submit.png" alt />
         <span>最新消息</span>
       </div>
 
-      <div class="featurecon_box">
-        <span>接受文件</span>
-        <p>
-          接受文件截止日期为2020.05.17
-          是否进行提醒
-        </p>
+      <div class="featurecon_box" v-for="(infor, index) in newInformation" :key="index">
+        <span>{{infor.title}}</span>
+        <p>{{infor.content}}</p>
       </div>
 
-      <div class="featurecon_box">
-        <span>接受消息</span>
-        <p>
-          小明：老师，我在今天的课堂还有
-          点问题，可以问你一下吗
-        </p>
-      </div>
     </div>
     <toolbar></toolbar>
   </div>
@@ -45,6 +35,7 @@ import logo from "@/components/logo";
 export default {
   data() {
     return {
+      isLogin: null,
       features: [
         {
           id: "sendFile",
@@ -76,6 +67,16 @@ export default {
           name: "测试成绩",
           className: "icon-chengji"
         }
+      ],
+      newInformation: [
+        {
+          title: "作业",
+          content: "作业文件截止日期为2020.05.17请进行提醒"
+        },
+        {
+          title: "接收消息",
+          content: "小明：老师，我在今天的课堂还有点问题，可以问你一下吗"
+        }
       ]
     };
   },
@@ -83,40 +84,46 @@ export default {
     toolbar,
     logo
   },
-
+  beforeMount() {
+    this.isLogin = sessionStorage.getItem("isLogin");
+  },
   methods: {
     enterpage(featureName) {
-      switch (featureName) {
-        case "sendFile":
-          this.$router.push({ path: "/teachers/sendFile" });
-          break;
-        case "releaseTest":
-          this.$router.push({ path: "/teachers/releaseTest" });
-          break;
-        case "fileList":
-          this.$router.push({
-            path: "/teachers/sendFile",
-            query: { active: "fileList" }
-          });
-          break;
-        case "homeworkList":
-          this.$router.push({
-            path: "/teachers/sendFile",
-            query: { active: "homeworkList" }
-          });
-          break;
-        case "testStatic":
-          this.$router.push({
-            path: "/teachers/releaseTest",
-            query: { active: "testStatis" }
-          });
-          break;
-        case "testScore":
-          this.$router.push({
-            path: "/teachers/releaseTest",
-            query: { active: "testScore" }
-          });
-          break;
+      if (this.isLogin) {
+        switch (featureName) {
+          case "sendFile":
+            this.$router.push({ path: "/teachers/sendFile" });
+            break;
+          case "releaseTest":
+            this.$router.push({ path: "/teachers/releaseTest" });
+            break;
+          case "fileList":
+            this.$router.push({
+              path: "/teachers/sendFile",
+              query: { active: "fileList" }
+            });
+            break;
+          case "homeworkList":
+            this.$router.push({
+              path: "/teachers/sendFile",
+              query: { active: "homeworkList" }
+            });
+            break;
+          case "testStatic":
+            this.$router.push({
+              path: "/teachers/releaseTest",
+              query: { active: "testStatis" }
+            });
+            break;
+          case "testScore":
+            this.$router.push({
+              path: "/teachers/releaseTest",
+              query: { active: "testScore" }
+            });
+            break;
+        }
+      } else {
+        this.$router.push({ path: "/personCneter" });
       }
     }
   }
@@ -160,5 +167,10 @@ export default {
   border: 1px solid #666;
   padding: 15px;
   margin-top: 20px;
+}
+
+.featurecon_box p {
+  margin-top: 10px;
+  margin-bottom: 0;
 }
 </style>

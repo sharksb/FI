@@ -67,14 +67,14 @@ export default {
   },
   methods: {
     onClickLeft() {
-      this.$router.go(-1);
+      this.$router.push({ path: "/teachers/reviseWork" });
       console.log("返回");
     },
     onSubmit(values) {
       console.log("submit", values);
       Toast("提交成功");
       setTimeout(()=>{
-         this.$router.go(-1);
+         this.$router.push({ path: "/teachers/reviseWork" });
       },2000)
     }
   }
@@ -89,27 +89,27 @@ export default {
 .reviseStudent span {
   margin-left: 10px;
 }
-.van-cell-group {
+.reviseDetail .van-cell-group {
   width: 90%;
   margin: 0 auto;
 }
-.van-field__label {
+.reviseDetail .van-field__label {
   width: 45px;
 }
-.van-cell__title span {
+.reviseDetail .van-cell__title span {
   font-size: 16px;
 }
 .revisedel_content {
   padding: 0 15px 10px 15px;
 }
-.van-panel__footer {
+.reviseDetail .van-panel__footer {
   display: flex;
   justify-content: flex-end;
 }
-.van-panel__footer .van-field {
+.reviseDetail .van-panel__footer .van-field {
   width: 50%;
 }
-.van-panel__footer .van-field .van-field__body {
+.reviseDetail .van-panel__footer .van-field .van-field__body {
   border: 1px solid;
   padding-left: 15px;
   border-radius: 10px;

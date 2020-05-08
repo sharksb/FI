@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     onClickLeft() {
-      this.$router.push({ path: "/tfeature" });
+      this.$router.push({ path: "/sfeature" });
     },
 
     finish(){

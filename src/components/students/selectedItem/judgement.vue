@@ -1,19 +1,27 @@
 <template>
   <div class="judgement">
-    <van-panel title="常见的网络银行自助处理系统有ATM系统、POS系统、电话银行系统和自助银行系统等。" desc="判断">
+    <van-panel :title="question.title" desc="判断">
       <div class="studenttest_content">
-        <van-radio-group v-model="judgement">
-          <van-radio name="A">A：对</van-radio>
-          <van-radio name="B">B．错</van-radio>
-        </van-radio-group>
+        <van-field :name="'judgement'+index" :rules="[{ required: true, message: '请选择答案' }]">
+          <template #input>
+            <van-radio-group v-model="judgement">
+              <van-radio name="A">A：对</van-radio>
+              <van-radio name="B">B．错</van-radio>
+            </van-radio-group>
+          </template>
+        </van-field>
       </div>
     </van-panel>
   </div>
 </template>
 
 <script>
-import { Panel, RadioGroup, Radio } from "vant";
+import { Panel, RadioGroup, Radio, Field } from "vant";
 export default {
+  props: {
+    index: Number,
+    question: Object
+  },
   data() {
     return {
       judgement: ""
@@ -22,15 +30,16 @@ export default {
   components: {
     [Panel.name]: Panel,
     [RadioGroup.name]: RadioGroup,
-    [Radio.name]: Radio
+    [Radio.name]: Radio,
+    [Field.name]: Field
   }
 };
 </script>
 
 <style scoped>
-.judgement{
-    width: 85%;
-    margin: 0 auto;
+.judgement {
+  width: 85%;
+  margin: 0 auto;
 }
 .van-radio-group {
   width: 70%;

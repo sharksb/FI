@@ -74,7 +74,7 @@ export default {
   },
   methods: {
     onClickLeft() {
-       this.$router.go(-1)
+       this.$router.push({ path: "/teachers/releaseTest" });
     },
     onAddOption() {
       this.counts.push(this.radioSelect);
@@ -86,7 +86,7 @@ export default {
       console.log(values);
       Toast("发布成功")
       setTimeout(()=>{
-       this.$router.go(-1)
+      this.$router.push({ path: "/teachers/releaseTest" });
       },2000)
     },
     changeRadio(value) {

@@ -7,7 +7,7 @@
       </div>
       <h4 @click="enterTestStatistics">进入></h4>
     </div>
-    <listgraph></listgraph>
+    <listgraph :filelist="filelist"></listgraph>
   </div>
 </template>
 <script>
@@ -17,21 +17,33 @@ export default {
     testtype: String
   },
   data() {
-    return {};
+    return {
+      filelist: [
+        {
+          time: "2020-01-17",
+          fileurl: "#",
+          filename: "第二次测试"
+        },
+        {
+          time: "2020-12-17",
+          fileurl: "#",
+          filename: "第一次测试"
+        }
+      ]
+    };
   },
   components: {
     listgraph
   },
   methods: {
     enterTestStatistics() {
-      if(this.testtype == 'testStatis'){
-        console.log('testStatis')
+      if (this.testtype == "testStatis") {
+        console.log("testStatis");
         this.$router.push({ path: "/teachers/testStasticDetail" });
-      }else if(this.testtype == 'testScore'){
-         console.log('testScore')
-          this.$router.push({ path: "/teachers/testScore" });
+      } else if (this.testtype == "testScore") {
+        console.log("testScore");
+        this.$router.push({ path: "/teachers/testScore" });
       }
-      
     }
   }
 };

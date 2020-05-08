@@ -38,44 +38,50 @@
 
 <script>
 import { NavBar, Field, Button } from "vant";
+import app from "@/api/app.js";
 export default {
   data() {
     return {
-      postMan:{
-        name:"白玉",
-        avater:"@/assets/person/avater.png",
-        title:"有哪位童鞋知道损失厌恶是什么吗",
-        time:"2020-02-14"
+      postMan: {
+        name: "白玉",
+        avater: "@/assets/person/avater.png",
+        title: "有哪位童鞋知道损失厌恶是什么吗",
+        time: "2020-02-14"
       },
-      replyMen:[
+      replyMen: [
         {
-          name:"大宝",
-          avater:"@/assets/person/avater.png",
-          title:"不知道",
-          time:"2020-02-15"
+          name: "大宝",
+          avater: "@/assets/person/avater.png",
+          title: "不知道",
+          time: "2020-02-15"
         }
-
       ],
-      message:""
-    }
+      message: ""
+    };
   },
   components: {
     [NavBar.name]: NavBar,
     [Field.name]: Field,
     [Button.name]: Button
   },
-  methods:{
+  methods: {
     onClickLeft() {
-      this.$router.go(-1)
+      this.$router.push({ path: "/platform" });
     },
-    sendMessage(){
+    sendMessage() {
+      if (sessionStorage.getItem("isLogin")) {
         this.replyMen.push({
-          name: sessionStorage.getItem("name"),
-          avater:"@/assets/person/avater.png",
-          title:this.message,
-          time: new Date().toDateString()
-        })
-        this.message = ""
+          name: sessionStorage.getItem("userName"),
+          avater: "@/assets/person/avater.png",
+          title: this.message,
+          time: app.getNowDate()
+        });
+         this.message = "";
+      }else {
+          this.$router.push({ path: "/personCneter" });
+      }
+
+     
     }
   }
 };
@@ -149,10 +155,10 @@ export default {
   border: 1px solid #666;
   border-radius: 15px;
 }
-.platform_send{
-    width: 20%;
-    align-self: flex-end;
-    border-radius: 12px;
-    margin-top: 10px;
+.platform_send {
+  width: 20%;
+  align-self: flex-end;
+  border-radius: 12px;
+  margin-top: 10px;
 }
 </style>

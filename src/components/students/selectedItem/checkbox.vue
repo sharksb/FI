@@ -1,23 +1,30 @@
 <template>
   <div class="checkbox">
-    <van-panel title="一般说来，在大额支付的简单加密信用卡网上支付系统中，实际当事人有" desc="多选">
+    <van-panel :title="question.title" desc="多选">
       <div class="studenttest_content">
-        <van-checkbox-group v-model="checkbox">
-          <van-checkbox name="A">A:复选框 a</van-checkbox>
-          <van-checkbox name="B">B:复选框 b</van-checkbox>
-          <van-checkbox name="C">C:复选框 b</van-checkbox>
-          <van-checkbox name="D">D:复选框 b</van-checkbox>
-          <van-checkbox name="E">E:复选框 b</van-checkbox>
-          <van-checkbox name="F">F:复选框 b</van-checkbox>
-        </van-checkbox-group>
+        <van-field :name="'checkbox'+index"  :rules="[{ required: true, message: '请选择答案' }]">
+          <template #input>
+            <van-checkbox-group v-model="checkbox">
+              <van-checkbox
+                v-for="(item, index) in question.opt"
+                :key="index"
+                :name="item"
+              >{{item}}:{{question.option[index]}}</van-checkbox>
+            </van-checkbox-group>
+          </template>
+        </van-field>
       </div>
     </van-panel>
   </div>
 </template>
 
 <script>
-import { Panel, Checkbox, CheckboxGroup } from "vant";
+import { Panel, Checkbox, CheckboxGroup, Field } from "vant";
 export default {
+  props: {
+    index: Number,
+    question: Object
+  },
   data() {
     return {
       checkbox: []
@@ -26,7 +33,8 @@ export default {
   components: {
     [Panel.name]: Panel,
     [CheckboxGroup.name]: CheckboxGroup,
-    [Checkbox.name]: Checkbox
+    [Checkbox.name]: Checkbox,
+    [Field.name]: Field
   }
 };
 </script>

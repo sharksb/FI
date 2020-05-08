@@ -4,7 +4,7 @@
       <img src="@/assets/filelist.png" alt />
       <div>
       <h5>{{file.time}}</h5>
-      <span><a :href="file.url">下载</a></span>
+      <span><a href="@/file/《互联网金融》课程网站研究.docx" download>下载</a></span>
       </div>
       <h4>
        {{file.title}}

@@ -84,7 +84,6 @@ export default {
 
 .homework_charge h4 {
   text-align: left;
-  margin-bottom: 0.3rem;
 }
 .homework_charge h5 {
   margin-bottom: 0.3rem;
@@ -93,5 +92,6 @@ export default {
 .hc_title {
   display: flex;
   justify-content: space-between;
+  margin-top: 0.5rem;
 }
 </style>

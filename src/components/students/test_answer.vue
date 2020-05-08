@@ -18,8 +18,10 @@
     <div class="testans_footer">
       <p>正确率:{{correctRate}}%</p>
       <van-progress :percentage="correctRate" stroke-width="15" :show-pivot="false" />
+      <div v-if="currentAnswer">
       <p>排名:{{rankRate}}%</p>
       <van-progress :percentage="rankRate" stroke-width="15" :show-pivot="false" color="#F33952" />
+      </div>
     </div>
   </div>
 </template>
@@ -27,6 +29,12 @@
 <script>
 import { Panel, Progress } from "vant";
 export default {
+  props:{
+     currentAnswer: {
+      type: Boolean,
+      default: false
+    },
+  },
   data() {
     return {
       questionAnswers: [

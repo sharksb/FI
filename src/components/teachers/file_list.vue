@@ -1,5 +1,5 @@
 <template>
- <listgraph></listgraph>
+ <listgraph :filelist="filelist"></listgraph>
 </template>
 
 <script>
@@ -7,18 +7,18 @@ import listgraph  from '@/components/teachers/list_graph'
 export default {
   data() {
     return {
-      // filelist: [
-      //   {
-      //     time: "2020-01-17",
-      //     fileurl: "#",
-      //     filename: "第一章作业"
-      //   },
-      //   {
-      //     time: "2020-01-17",
-      //     fileurl: "#",
-      //     filename: "第一章作业"
-      //   }
-      // ]
+      filelist: [
+        {
+          time: "2020-01-17",
+          fileurl: "#",
+          filename: "第一章作业"
+        },
+        {
+          time: "2020-03-17",
+          fileurl: "#",
+          filename: "第二章作业"
+        }
+      ]
     }
   },
   components:{

@@ -1,41 +1,42 @@
 <template>
-  <div class="homework_detail">
+  <div>
     <van-nav-bar title="收取情况" left-text="作业列表" left-arrow @click-left="onClickLeft" />
-
-    <!-- 已交 -->
-    <div class="hwdetail_title">
-      <img src="@/assets/submit.png" alt />
-      <span>已交</span>
-    </div>
-    <div class="submitHomework" v-for="(homework, index) in submitHomework" :key="index">
-      <h1>{{homework.className}}</h1>
-      <h2>{{homework.submitCount}}人</h2>
-      <a :href="homework.url">下载</a>
-    </div>
-
-    <!-- 未交 -->
-    <div class="hwdetail_title">
-      <img src="@/assets/submit.png" alt />
-      <span>未交</span>
-    </div>
-    <van-collapse v-model="activeName" accordion>
-      <div v-for="(noHomework, index) in nosubmitHomework" :key="index">
-        <van-collapse-item
-          :title="noHomework.className"
-          :name="index"
-          :value="noHomework.nosubmitCount"
-        >
-          <ul>
-            <li v-for="(item ,index) in noHomework.studentInfor" :key="index">
-              <span>{{item.studentName}}</span>
-              {{item.studentId}}
-            </li>
-          </ul>
-        </van-collapse-item>
+    <div class="homework_detail">
+      <!-- 已交 -->
+      <div class="hwdetail_title">
+        <img src="@/assets/submit.png" alt />
+        <span>已交</span>
       </div>
-    </van-collapse>
+      <div class="submitHomework" v-for="(homework, index) in submitHomework" :key="index">
+        <h1>{{homework.className}}</h1>
+        <h2>{{homework.submitCount}}人</h2>
+        <a :href="homework.url">下载</a>
+      </div>
 
-    <van-button @click="alertButton" class="alertButton" round block>一键警告</van-button>
+      <!-- 未交 -->
+      <div class="hwdetail_title">
+        <img src="@/assets/submit.png" alt />
+        <span>未交</span>
+      </div>
+      <van-collapse v-model="activeName" accordion>
+        <div v-for="(noHomework, index) in nosubmitHomework" :key="index">
+          <van-collapse-item
+            :title="noHomework.className"
+            :name="index"
+            :value="noHomework.nosubmitCount"
+          >
+            <ul>
+              <li v-for="(item ,index) in noHomework.studentInfor" :key="index">
+                <span>{{item.studentName}}</span>
+                {{item.studentId}}
+              </li>
+            </ul>
+          </van-collapse-item>
+        </div>
+      </van-collapse>
+
+      <van-button @click="alertButton" class="alertButton" round block>一键警告</van-button>
+    </div>
   </div>
 </template>
 
@@ -92,7 +93,7 @@ export default {
         }
       ],
       activeName: "1"
-    }
+    };
   },
   components: {
     [NavBar.name]: NavBar,
@@ -102,7 +103,7 @@ export default {
   },
   methods: {
     onClickLeft() {
-      this.$router.go(-1)
+       this.$router.push({ path: "/teachers/sendFile",query:{active:'homeworkList'} });
       console.log("返回");
     },
     alertButton() {

@@ -41,7 +41,7 @@ export default {
 
 <style scoped>
 .radioTitle .van-cell__title{
-    width: 95px;
+    width: 95px !important;
 }
 
 .teachertest_content {

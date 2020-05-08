@@ -66,11 +66,74 @@ export default {
             {
               studentName: "大红",
               studentSoce: 95
+            },
+            {
+              studentName: "菲菲",
+              studentSoce: 95
+            },
+            {
+              studentName: "丽丽",
+              studentSoce: 95
+            },
+            {
+              studentName: "王紫荆",
+              studentSoce: 73
+            },
+            {
+              studentName: "肖珺婕",
+              studentSoce: 95
+            },
+             {
+              studentName: "刘欣丽",
+              studentSoce: 95
+            },
+             {
+              studentName: "李峰",
+              studentSoce: 95
             }
           ]
         },
         {
           className: "信息1602",
+          studentCount: 32,
+          testStudentCount: 29,
+          studentInfor: [
+              {
+              studentName: "李煜",
+              studentSoce: 73
+            },
+            {
+              studentName: "大红",
+              studentSoce: 95
+            },
+             {
+              studentName: "李煜",
+              studentSoce: 73
+            },
+            {
+              studentName: "大红",
+              studentSoce: 95
+            },
+            {
+              studentName: "王紫荆",
+              studentSoce: 73
+            },
+            {
+              studentName: "肖珺婕",
+              studentSoce: 95
+            },
+             {
+              studentName: "刘欣丽",
+              studentSoce: 95
+            },
+             {
+              studentName: "李峰",
+              studentSoce: 95
+            }
+          ]
+        },
+        {
+          className: "信息1603",
           studentCount: 32,
           testStudentCount: 29,
           studentInfor: [
@@ -80,6 +143,38 @@ export default {
             },
             {
               studentName: "大红",
+              studentSoce: 95
+            },
+             {
+              studentName: "李煜",
+              studentSoce: 73
+            },
+            {
+              studentName: "大红",
+              studentSoce: 95
+            },
+            {
+              studentName: "菲菲",
+              studentSoce: 95
+            },
+            {
+              studentName: "丽丽",
+              studentSoce: 95
+            },
+            {
+              studentName: "王紫荆",
+              studentSoce: 73
+            },
+            {
+              studentName: "肖珺婕",
+              studentSoce: 95
+            },
+             {
+              studentName: "刘欣丽",
+              studentSoce: 95
+            },
+             {
+              studentName: "李峰",
               studentSoce: 95
             }
           ]

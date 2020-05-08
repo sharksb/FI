@@ -1,26 +1,27 @@
 <template>
-  <div class="homework_detail">
-    <van-nav-bar title="收取情况" left-text="作业列表" left-arrow @click-left="onClickLeft" />
-
-    <van-collapse v-model="activeName" accordion>
-      <div v-for="(noHomework, index) in nosubmitHomework" :key="index">
-        <van-collapse-item :title="noHomework.className" :name="index" value="详情">
-          <ul>
-            <li v-for="(item ,index) in noHomework.studentInfor" :key="index">
-              <span>{{item.studentName}}</span>
-              {{item.studentId}}
-              <van-button @click="checkButton" size="mini" round>查看</van-button>
-              <van-button @click="uploadButton" size="mini" round>下载</van-button>
-            </li>
-          </ul>
-        </van-collapse-item>
-        <div class="up_but">
-          <van-button class="upButton" @click="classButton">下载</van-button>
+  <div>
+    <van-nav-bar title="批改情况" left-text="作业列表" left-arrow @click-left="onClickLeft" />
+    <div class="homework_detail">
+      <van-collapse v-model="activeName" accordion>
+        <div v-for="(noHomework, index) in nosubmitHomework" :key="index">
+          <van-collapse-item :title="noHomework.className" :name="index" value="详情">
+            <ul>
+              <li v-for="(item ,index) in noHomework.studentInfor" :key="index">
+                <span>{{item.studentName}}</span>
+                {{item.studentId}}
+                <van-button @click="checkButton" size="mini" round>查看</van-button>
+                <van-button @click="uploadButton" size="mini" round>下载</van-button>
+              </li>
+            </ul>
+          </van-collapse-item>
+          <div class="up_but">
+            <van-button class="upButton" @click="classButton">下载</van-button>
+          </div>
         </div>
-      </div>
-    </van-collapse>
+      </van-collapse>
 
-    <van-button @click="uploadAllButton" class="alertButton" round block>一键下载</van-button>
+      <van-button @click="uploadAllButton" class="alertButton" round block>一键下载</van-button>
+    </div>
   </div>
 </template>
 
@@ -87,17 +88,17 @@ export default {
   },
   methods: {
     onClickLeft() {
-      this.$router.go(-1)
+      this.$router.push({ path: "/teachers/sendFile",query:{active:'homeworkList'} });
       console.log("返回");
     },
     uploadAllButton() {
       console.log("一键下载");
     },
-    classButton(){
-     console.log("下载班级")
+    classButton() {
+      console.log("下载班级");
     },
     checkButton() {
-      this.$router.push({path:'/teachers/reviseDetail'})
+      this.$router.push({ path: "/teachers/reviseDetail" });
       console.log("查看");
     },
     uploadButton() {
@@ -118,12 +119,12 @@ li {
   margin-bottom: 0.5rem;
 }
 
-.up_but{
-    width: 90%;
-    margin: 0 auto;
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 1rem;
+.up_but {
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
 }
 
 .upButton {
@@ -132,7 +133,7 @@ li {
   line-height: 35px;
   border-radius: 15px;
 }
-.alertButton{
-    margin-top: 2rem;
+.alertButton {
+  margin-top: 2rem;
 }
 </style>

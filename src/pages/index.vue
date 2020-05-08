@@ -3,7 +3,7 @@
     <logo></logo>
     <div class="index">
       <!-- first -->
-      <div class="first">
+      <div class="first" v-if="isLogin">
         <div class="title">
           <img src="@/assets/submit.png" alt />
           <span>最新消息</span>
@@ -28,19 +28,20 @@
           <span>互联网金融</span>
         </div>
         <div class="second_content">
-          <div class="secondCon_title">
-            <i class="iconfont icon-zixunf"></i>
-            <span>2019的互联网金融分析！</span>
-          </div>
-
-          <div class="secondCon_content">
-            <p>
-              2019，互联网金融退潮，十年繁华，梦幻一场。
-              互金退潮，不少银行松了口气：少了它们“捣乱”2019，互联网金融退潮，十年繁华，梦幻一场。
-              互金退潮，不少银行松了口气：少了它们“捣乱”
-            </p>
-            <span>来源：青瓜传媒</span>
-          </div>
+          <a href="http://www.opp2.com/172460.html" target="_blank">
+            <div class="secondCon_title">
+              <i class="iconfont icon-zixunf"></i>
+              <span>2019的互联网金融分析！</span>
+            </div>
+            <div class="secondCon_content">
+              <p>
+                2019，互联网金融退潮，十年繁华，梦幻一场。
+                互金退潮，不少银行松了口气：少了它们“捣乱”2019，互联网金融退潮，十年繁华，梦幻一场。
+                互金退潮，不少银行松了口气：少了它们“捣乱”
+              </p>
+              <span>来源：青瓜传媒</span>
+            </div>
+          </a>
         </div>
       </div>
 
@@ -57,12 +58,12 @@
             <p>信息管理</p>
           </div>
           <div class="thirdCon_box">
-            <img src="@/assets/index/information.png" alt />
-            <p>信息管理</p>
+            <img src="@/assets/index/finance.png" alt />
+            <p>行为经济学</p>
           </div>
           <div class="thirdCon_box">
-            <img src="@/assets/index/information.png" alt />
-            <p>信息管理</p>
+            <img src="@/assets/index/internet.png" alt />
+            <p>JAVA程序语言设计</p>
           </div>
         </div>
       </div>
@@ -77,25 +78,22 @@
         <div class="fourth_content">
           <swiper ref="mySwiper" :options="swiperOptions">
             <swiper-slide>
-              <img src="@/assets/index/information.png" alt />
+              <img src="@/assets/index/financeinter.png" alt />
             </swiper-slide>
             <swiper-slide>
-              <img src="@/assets/index/internet.png" alt />
+              <img src="@/assets/index/hujiang.png" alt />
             </swiper-slide>
             <swiper-slide>
-              <img src="@/assets/index/information.png" alt />
+              <img src="@/assets/index/muke.png" alt />
             </swiper-slide>
             <swiper-slide>
-              <img src="@/assets/index/information.png" alt />
+              <img src="@/assets/index/qigua.png" alt />
             </swiper-slide>
             <swiper-slide>
-              <img src="@/assets/index/information.png" alt />
+              <img src="@/assets/index/wangyi.png" alt />
             </swiper-slide>
             <swiper-slide>
-              <img src="@/assets/index/information.png" alt />
-            </swiper-slide>
-            <swiper-slide>
-              <img src="@/assets/index/information.png" alt />
+              <img src="@/assets/index/zhiwang.png" alt />
             </swiper-slide>
           </swiper>
         </div>
@@ -116,6 +114,7 @@ export default {
   name: "carrousel",
   data() {
     return {
+      isLogin: null,
       swiperOptions: {
         // Some Swiper option/callback...
         slidesPerView: 4,
@@ -138,6 +137,9 @@ export default {
       return this.$refs.mySwiper.$swiper;
     }
   },
+  beforeMount() {
+    this.isLogin = sessionStorage.getItem("isLogin");
+  },
   mounted() {
     // this.swiper.slideTo(1, 1000, true);
   }
@@ -145,6 +147,9 @@ export default {
 </script>
 
 <style scoped>
+a {
+  color: black;
+}
 .index {
   width: 85%;
   margin: 0 auto;

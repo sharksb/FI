@@ -1,7 +1,7 @@
 <template>
   <div class="currTestAnswer">
     <van-nav-bar title="提交" left-text="提交作业" left-arrow @click-left="onClickLeft" />
-    <testAnswer></testAnswer>
+    <testAnswer :currentAnswer="currentAnswer"></testAnswer>
   </div>
 </template>
 
@@ -10,7 +10,9 @@ import { NavBar } from "vant"
 import testAnswer from "@/components/students/test_answer"
 export default {
   data() {
-    return {};
+    return {
+      currentAnswer:true
+    };
   },
   components: {
     [NavBar.name]: NavBar,
@@ -19,7 +21,6 @@ export default {
   methods: {
     onClickLeft() {
     this.$router.push({ path: "/sfeature" });
-    console.log("返回")
     }
   }
 };

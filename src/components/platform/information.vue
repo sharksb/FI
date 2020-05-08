@@ -73,7 +73,7 @@
 
 <script>
 import { Badge } from "mint-ui";
-import { Collapse, CollapseItem, Field, Button } from "vant";
+import { Collapse, CollapseItem, Field, Button, Toast} from "vant";
 import "mint-ui/lib/style.css";
 export default {
   data() {
@@ -116,7 +116,8 @@ export default {
     [Collapse.name]: Collapse,
     [CollapseItem.name]: CollapseItem,
     [Field.name]: Field,
-    [Button.name]: Button
+    [Button.name]: Button,
+    [Toast.name]: Toast,
   },
     beforeMount() {
     this.personInfor = sessionStorage.getItem("personInfor");
@@ -130,6 +131,11 @@ export default {
       e.currentTarget.className = "";
     },
     sendMessage() {
+      if(this.message == '') {
+         Toast('请输入内容')
+      }else {
+        Toast('发送成功')
+      }
       console.log(this.message);
       this.message = ''
     },

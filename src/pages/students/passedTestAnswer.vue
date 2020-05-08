@@ -10,7 +10,9 @@ import { NavBar } from "vant"
 import testAnswer from "@/components/students/test_answer"
 export default {
   data() {
-    return {};
+    return {
+      
+    };
   },
   components: {
     [NavBar.name]: NavBar,
@@ -18,7 +20,7 @@ export default {
   },
   methods: {
     onClickLeft() {
-     this.$router.go(-1);
+      this.$router.push({ path: "/sfeature" });
     }
   }
 };

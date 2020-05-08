@@ -44,7 +44,7 @@ export default {
   methods: {
     onSubmit(values) {
       this.axios
-        .get("http://127.0.0.1:8081/login")
+        .get("http://127.0.0.1:8081/user/login")
         .then(response => {
           // this.content = response.data.bpi;
           console.log(response.data);
@@ -71,7 +71,7 @@ export default {
               sessionStorage.setItem("telephone", userInfo[0].telephone);
               sessionStorage.setItem("userName", userInfo[0].userName);
               setTimeout(() => {
-                this.$router.push({ path: "/index" });
+                this.$router.push({ path: "/" });
               }, 3000);
             }
           }
@@ -81,7 +81,7 @@ export default {
         });
     },
     onClickLeft() {
-      this.$router.go(-1);
+     this.$router.push({ path: "/personCneter" });
     }
   }
 };

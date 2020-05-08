@@ -12,26 +12,17 @@
         <h4>{{feature.name}}</h4>
       </div>
     </div>
-    <div class="feature_content">
+    <div class="feature_content" v-if="isLogin">
       <div class="featurecon_title">
         <img src="@/assets/submit.png" alt />
         <span>最新消息</span>
       </div>
 
-      <div class="featurecon_box">
-        <span>提交文件</span>
-        <p>
-          接受文件截止日期为2020.05.17
-          是否进行提交
-        </p>
+      <div class="featurecon_box" v-for="(infor, index) in newInformation" :key="index">
+        <span>{{infor.title}}</span>
+        <p>{{infor.content}}</p>
       </div>
 
-      <div class="featurecon_box">
-        <span>接受消息</span>
-        <p>
-          小明：在吗
-        </p>
-      </div>
     </div>
     <toolbar></toolbar>
   </div>
@@ -43,6 +34,7 @@ import logo from "@/components/logo";
 export default {
   data() {
     return {
+      isLogin: null,
       features: [
         {
           id: "obtainFile",
@@ -64,6 +56,16 @@ export default {
           name: "测试列表",
           className: "icon-fabuxiaoxi"
         }
+      ],
+      newInformation: [
+        {
+          title: "提交文件",
+          content: "《第三次作业》提交时间为2020-01.20，请加紧提交"
+        },
+        {
+          title: "接收消息",
+          content: "小明：在吗"
+        }
       ]
     };
   },
@@ -71,25 +73,31 @@ export default {
     toolbar,
     logo
   },
-
+  beforeMount() {
+    this.isLogin = sessionStorage.getItem("isLogin");
+  },
   methods: {
     enterpage(featureName) {
-      switch (featureName) {
-        case "obtainFile":
-          this.$router.push({ path: "/students/obtainFile" });
-          break;
-        case "enterTest":
-          this.$router.push({ path: "/students/classTest" });
-          break;
-        case "handHomework":
-          this.$router.push({ path: "/students/handHomework" });
-          break;
-        case "passedTest":
-          this.$router.push({
-            path: "/students/classTest",
-            query: { active: "passedTest" }
-          });
-          break;
+      if (this.isLogin) {
+        switch (featureName) {
+          case "obtainFile":
+            this.$router.push({ path: "/students/obtainFile" });
+            break;
+          case "enterTest":
+            this.$router.push({ path: "/students/classTest" });
+            break;
+          case "handHomework":
+            this.$router.push({ path: "/students/handHomework" });
+            break;
+          case "passedTest":
+            this.$router.push({
+              path: "/students/classTest",
+              query: { active: "passedTest" }
+            });
+            break;
+        }
+      } else {
+        this.$router.push({ path: "/personCneter" });
       }
     }
   }
@@ -133,5 +141,9 @@ export default {
   border: 1px solid #666;
   padding: 15px;
   margin-top: 20px;
+}
+.featurecon_box p {
+  margin-top: 10px;
+  margin-bottom: 0;
 }
 </style>

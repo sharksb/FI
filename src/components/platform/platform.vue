@@ -1,6 +1,11 @@
 <template>
   <div class="platform">
-    <div class="platform_box" v-for="(userinfro, index) in userinfros" :key="index" @click="toDetail">
+    <div
+      class="platform_box"
+      v-for="(userinfro, index) in userinfros"
+      :key="index"
+      @click="toDetail"
+    >
       <p>{{userinfro.title}}</p>
       <div class="pbox_bottom">
         <div class="pboxBottom_l">
@@ -11,7 +16,6 @@
       </div>
     </div>
 
-
     <div class="platform_message">
       <van-field
         v-model="message"
@@ -20,31 +24,33 @@
         placeholder="写下你想说的话"
         show-word-limit
       />
-    <van-button class="platform_send" @click="sendMessage">发送</van-button>
+      <van-button class="platform_send" @click="sendMessage">发送</van-button>
     </div>
-   <toolbar></toolbar>
+    <toolbar></toolbar>
   </div>
 </template>
 
 <script>
 import toolbar from "@/components/toolbar";
-import { Field, Button } from "vant";
+import app from "@/api/app.js"
+import { Field, Button, Toast } from "vant";
 export default {
   data() {
     return {
-      userinfros:[
-      {
-        name:"李白",
-        avater:"@/assets/person/avater.png",
-        time:"2020-02-11",
-        title:"有哪位童鞋知道损失厌恶是什么吗"
-      },
-       {
-        name:"李白",
-        avater:"../../assets/person/avater.png",
-        time:"2020-02-11",
-        title:"有哪位童鞋知道损失厌恶是什么吗"
-      }
+      isLogin: null,
+      userinfros: [
+        {
+          name: "李白",
+          avater: "@/assets/person/avater.png",
+          time: "2020-02-11",
+          title: "有哪位童鞋知道损失厌恶是什么吗"
+        },
+        {
+          name: "李白",
+          avater: "../../assets/person/avater.png",
+          time: "2020-02-11",
+          title: "有哪位童鞋知道损失厌恶是什么吗"
+        }
       ],
       message: ""
     };
@@ -52,22 +58,32 @@ export default {
   components: {
     [Field.name]: Field,
     [Button.name]: Button,
+    [Toast.name]: Toast,
     toolbar
   },
-  methods:{
-    sendMessage(){
-      
-      this.userinfros.push({
-          name:sessionStorage.getItem("name"),
-          avater:"../../assets/person/avater.png",
-          time :new Date().toDateString(),
-          title:this.message
-      })
-       
-     },
-     toDetail(){
-         this.$router.push({ path: "/platformDetail"});
-     }
+  beforeMount() {
+    this.isLogin = sessionStorage.getItem("isLogin");
+  },
+  methods: {
+    sendMessage() {
+      if (this.isLogin) {
+        if (this.message != "") {
+          this.userinfros.push({
+            name: sessionStorage.getItem("userName"),
+            avater: "../../assets/person/avater.png",
+            time: app.getNowDate(),
+            title: this.message
+          });
+        } else {
+          Toast("请输入内容");
+        }
+      }else {
+        this.$router.push({ path: "/personCneter" });
+      }
+    },
+    toDetail() {
+      this.$router.push({ path: "/platformDetail" });
+    }
   }
 };
 </script>
@@ -112,10 +128,10 @@ export default {
   border: 1px solid #666;
   border-radius: 15px;
 }
-.platform_send{
-    width: 20%;
-    align-self: flex-end;
-    border-radius: 12px;
-    margin-top: 10px;
+.platform_send {
+  width: 20%;
+  align-self: flex-end;
+  border-radius: 12px;
+  margin-top: 10px;
 }
 </style>
