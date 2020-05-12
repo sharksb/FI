@@ -43,11 +43,23 @@ export default {
       }else if(this.fileList.length == 0){
         Toast("请上传文件")
       }else{
-         Toast("上传成功")
-         setTimeout(()=>{
-           this.radio = ""
-           this.fileList.length = 0
-         },2000)
+        //  Toast("上传成功")
+        //  setTimeout(()=>{
+        //    this.radio = ""
+        //    this.fileList.length = 0
+        //  },2000)
+        this.axios({
+             method:'post',
+             url:'http://localhost:8082/upload',
+             headers: {
+            "Content-Type": "multipart/form-data"
+        },
+             data: this.fileList
+         }).then((reponse=>{
+           console.log(reponse)
+         })).catch((err)=>{
+           console.log(err)
+         })
       }
     }
   }

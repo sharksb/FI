@@ -14,7 +14,7 @@
     <!-- v-if="personInfor == 'student'" -->
     <div v-if="isLogin">
       <div class="person_content">
-        <div v-if="personInfor == 'student'">
+        <div v-if="type == '学生'">
           <p>姓名：{{stuperson.name}}</p>
           <van-divider />
           <p>学校：天津商业大学</p>
@@ -56,16 +56,16 @@ import { Divider, Button, Dialog } from "vant";
 export default {
   data() {
     return {
-      personInfor: null,
+      type: null,
       isLogin: false,
       stuperson: {
         name: "",
-        stuId: "20165144",
-        class: "信息1602"
+        stuId: "",
+        class: ""
       },
       teaperson: {
-        name: "李明",
-        teaId: "102511456"
+        name: "",
+        teaId: ""
       }
     };
   },
@@ -76,14 +76,17 @@ export default {
     [Button.name]: Button
   },
   beforeMount() {
-    this.personInfor = sessionStorage.getItem("personInfor");
+    this.type = sessionStorage.getItem("type");
     this.isLogin = sessionStorage.getItem("isLogin");
-    if (this.personInfor == "student") {
-      sessionStorage.setItem("name", this.stuperson.name);
+    if (this.type == "学生") {
+      this.stuperson.name = sessionStorage.getItem("username")
+      this.stuperson.stuId = sessionStorage.getItem("idCard")
+      this.stuperson.class = sessionStorage.getItem("class")
     } else {
-      sessionStorage.setItem("name", this.teaperson.name);
+      this.teaperson.name = sessionStorage.getItem("username")
+      this.teaperson.teaId = sessionStorage.getItem("idCard")
     }
-    this.stuperson.name = sessionStorage.getItem("userName")
+    
   },
   methods: {
     exit() {

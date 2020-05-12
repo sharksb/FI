@@ -77,6 +77,8 @@
 
 <script>
 import { Button, Field, Form, NavBar, Toast} from "vant";
+import md5 from "js-md5"
+import qs from "qs";
 export default {
   data() {
     return {
@@ -102,39 +104,48 @@ export default {
   methods: {
     onRegister(values) {
       console.log("submit", values);
-      let userName = values.username
-      let telephone = values.telphone
-      let password = values.password
-      let idCard = values.studentId
+       let data = qs.stringify({
+        "telephone": values.telphone,
+        "password": md5(values.password),
+        "idCard":values.studentId
+      });
+      console.log(JSON.stringify(data))
       if(values){
-        Toast('注册成功')
+        // Toast('注册成功')
 
   //       this.axios
-  //       .post('http://localhost:8081/user/register', {
-  //        "userName": userName,
-  //        "telephone": telephone,
-  //        "password":password,
-  //        "idCard":idCard
-  //        })
+  //      .post('http://localhost:8081/user/register', JSON.stringify(data))
   //      .then(function (response) {
   //       console.log(response);
   //       })
   //      .catch(function (error) {
   //       console.log(error);
   // });
+         this.axios({
+             method:'post',
+             url:'http://localhost:8082/register',
+             headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+             data: data
+         }).then((reponse=>{
+           console.log(reponse)
+         })).catch((err)=>{
+           console.log(err)
+         })
 
 
-         if(values.telephone == '18822103912') {
-          console.log(values.telephone)
-          sessionStorage.setItem("personInfor","student")
-        }else {
-           sessionStorage.setItem("personInfor","teacher")
-        }
-          sessionStorage.setItem("isLogin",true)
-          sessionStorage.setItem("telephone", values.telephone);
-        setTimeout(()=>{
-          this.$router.push({ path: '/'});
-        },3000)
+        //  if(values.telephone == '18822103912') {
+        //   console.log(values.telephone)
+        //   sessionStorage.setItem("personInfor","student")
+        // }else {
+        //    sessionStorage.setItem("personInfor","teacher")
+        // }
+        //   sessionStorage.setItem("isLogin",true)
+        //   sessionStorage.setItem("telephone", values.telephone);
+        // setTimeout(()=>{
+        //   this.$router.push({ path: '/'});
+        // },3000)
       }
     },
     validator(value){

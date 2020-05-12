@@ -27,6 +27,8 @@
 
 <script>
 import { Button, Field, Form, NavBar, Toast } from "vant";
+import md5 from "js-md5"
+import qs from "qs";
 export default {
   data() {
     return {
@@ -43,45 +45,43 @@ export default {
   },
   methods: {
     onSubmit(values) {
-      this.axios
-        .get("http://127.0.0.1:8081/user/login")
-        .then(response => {
-          // this.content = response.data.bpi;
-          console.log(response.data);
-          let data = response.data;
-          let userInfo = data.filter(item => {
-            return item.telephone == this.telephone;
-          });
-          console.log(userInfo);
-          if (userInfo.length == 0) {
-            Toast("用户不存在");
-          } else {
-            console.log(userInfo);
-            console.log(this.password);
-            if (userInfo[0].password != this.password) {
-              Toast("密码错误");
-            } else {
-              Toast("登录成功");
-              if (userInfo[0].id == 0) {
-                sessionStorage.setItem("personInfor", "teacher");
-              } else {
-                sessionStorage.setItem("personInfor", "student");
-              }
-              sessionStorage.setItem("isLogin", true);
-              sessionStorage.setItem("telephone", userInfo[0].telephone);
-              sessionStorage.setItem("userName", userInfo[0].userName);
-              setTimeout(() => {
-                this.$router.push({ path: "/" });
-              }, 3000);
-            }
+      console.log(values);
+      let data = qs.stringify({
+        telephone: values.telephone,
+        password: md5(values.password)
+      });
+      this.axios({
+        url: "http://127.0.0.1:8082/login",
+        method: "post",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        data: data
+      })
+        .then(reponse => {
+          console.log(reponse);
+          if (reponse.data.code == 1) {
+            Toast(reponse.data.data);
+          } else if (reponse.data.code == 2) {
+            Toast("登录成功");
+            let infor = reponse.data.data;
+            sessionStorage.setItem("isLogin",true)
+            sessionStorage.setItem("username", infor.username);
+            sessionStorage.setItem("idCard", infor.idCard);
+            sessionStorage.setItem("class", infor.class);
+            sessionStorage.setItem("telephone", infor.telephone);
+            sessionStorage.setItem("type", infor.type);
+            setTimeout(() => {
+              this.$router.push({ path: "/" });
+            }, 2000);
           }
         })
-        .catch(function(error) {
-          console.log(error);
+        .catch(err => {
+          console.log(err);
         });
     },
     onClickLeft() {
-     this.$router.push({ path: "/personCneter" });
+      this.$router.push({ path: "/personCneter" });
     }
   }
 };
