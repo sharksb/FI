@@ -5,7 +5,7 @@
         <van-radio name="file">发送文件</van-radio>
         <van-radio name="homeWork">发送作业</van-radio>
       </van-radio-group>
-      <van-uploader :after-read="afterRead" deletable v-model="fileList">
+      <van-uploader :after-read="afterRead" deletable v-model="fileList" @delete="deleteFile" @oversize="overFile" :max-size="3145728">
         <van-button class="uploaderBut" icon="plus" type="primary"></van-button>
       </van-uploader>
       <div class="sendFilBut">
@@ -36,31 +36,67 @@ export default {
       // 此时可以自行将文件上传至服务器
       console.log(file);
       console.log(this.radio);
+      let formData = new FormData()
+      formData.append('file', file.file)
+      formData.append('type',this.radio)
+        this.axios({
+             method:'post',
+             url:`${this.apiPath}file/upload`,
+             headers: {
+            "Content-Type": "multipart/form-data"
+        },
+             data: formData
+         }).then((reponse=>{
+           console.log(reponse)
+           let data = reponse.data
+           if(data.code==1){
+              Toast(data.message)
+           }else if(data.code==2){
+             Toast(data.message)
+           }
+         })).catch((err)=>{
+           console.log(err)
+         })
+    },
+    deleteFile(file){
+      console.log(this.radio)
+      let formData = new FormData()
+      formData.append('file', file.file)
+      
+      console.log(formData)
+      this.axios({
+             method:'post',
+             url:`${this.apiPath}file/remove`,
+             headers: {
+            "Content-Type": "multipart/form-data"
+        },
+             data: formData
+         }).then((reponse=>{
+           console.log(reponse)
+           let data = reponse.data
+           if(data.code==1){
+              Toast(data.data)
+           }
+         })).catch((err)=>{
+           console.log(err)
+         })
     },
     onSendFile(){
+      console.log(this.fileList)
       if(this.radio===""){
         Toast("请选择上传类型")
       }else if(this.fileList.length == 0){
         Toast("请上传文件")
       }else{
-        //  Toast("上传成功")
-        //  setTimeout(()=>{
-        //    this.radio = ""
-        //    this.fileList.length = 0
-        //  },2000)
-        this.axios({
-             method:'post',
-             url:'http://localhost:8082/upload',
-             headers: {
-            "Content-Type": "multipart/form-data"
-        },
-             data: this.fileList
-         }).then((reponse=>{
-           console.log(reponse)
-         })).catch((err)=>{
-           console.log(err)
-         })
+         setTimeout(()=>{
+           this.radio = ""
+           this.fileList.length = 0
+         },2000)
+
       }
+    },
+    overFile(){
+       Toast("文件大小超过了3M")
     }
   }
 };

@@ -2,11 +2,11 @@
   <div class="judgement">
     <van-panel :title="question.title" desc="判断">
       <div class="studenttest_content">
-        <van-field :name="'judgement'+index" :rules="[{ required: true, message: '请选择答案' }]">
+        <van-field :name="(index+1).toString()" :rules="[{ required: true, message: '请选择答案' }]">
           <template #input>
             <van-radio-group v-model="judgement">
-              <van-radio name="A">A：对</van-radio>
-              <van-radio name="B">B．错</van-radio>
+              <van-radio name="对">A：对</van-radio>
+              <van-radio name="错">B．错</van-radio>
             </van-radio-group>
           </template>
         </van-field>

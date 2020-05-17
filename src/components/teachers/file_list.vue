@@ -1,5 +1,5 @@
 <template>
- <listgraph :filelist="filelist"></listgraph>
+ <listgraph :filelist="filelist" :listtype="listtype"></listgraph>
 </template>
 
 <script>
@@ -7,22 +7,34 @@ import listgraph  from '@/components/teachers/list_graph'
 export default {
   data() {
     return {
-      filelist: [
-        {
-          time: "2020-01-17",
-          fileurl: "#",
-          filename: "第一章作业"
-        },
-        {
-          time: "2020-03-17",
-          fileurl: "#",
-          filename: "第二章作业"
-        }
-      ]
+      listtype:"file",
+      filelist: []
     }
   },
   components:{
     listgraph
+  },
+  beforeMount(){
+      this.axios({
+             method:'get',
+             url:`${this.apiPath}file/showFile`,
+         }).then((reponse=>{
+           console.log(reponse)
+           let filelist = []
+           let dataContent =null
+           for(dataContent of reponse.data) {
+              filelist.push({
+                filename: dataContent.file,
+                fileurl: dataContent.fileUrl,
+                time:dataContent.uploadtime
+              })
+           }
+           console.log(filelist)
+           this.filelist = filelist
+
+         })).catch((err)=>{
+           console.log(err)
+         })
   }
 };
 </script>

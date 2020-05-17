@@ -1,22 +1,51 @@
 <template>
   <div class="currTestAnswer">
-    <van-nav-bar title="第四章测试答案" left-text="测试列表" left-arrow @click-left="onClickLeft" />
-    <testAnswer></testAnswer>
+    <van-nav-bar :title="titles" left-text="测试列表" left-arrow @click-left="onClickLeft" />
+    <testAnswer :questionAnswers="questionAnswers" :correctRate="correctRate" :score="score"></testAnswer>
   </div>
 </template>
 
 <script>
-import { NavBar } from "vant"
+import { NavBar, Toast } from "vant"
 import testAnswer from "@/components/students/test_answer"
 export default {
   data() {
     return {
-      
+      titles:'',
+      questionAnswers:[],
+      correctRate:null,
+      score:null
     };
   },
   components: {
     [NavBar.name]: NavBar,
+    [Toast.name]: Toast,
     testAnswer
+  },
+  beforeMount(){
+    let idCard = this.$route.query.idCard;
+    let testName = this.$route.query.testName;
+    console.log(idCard)
+    console.log(testName)
+    let info = JSON.stringify({
+      idCard:idCard,
+      testName:testName
+    })
+        this.axios({
+        url: `${this.apiPath}test/obtainOneStudentAnswer?idCard=${idCard}&testName=${testName}`,
+        method: "get"
+      }).then(response => {
+         console.log(response)
+         let data = response.data
+         if(data.code == 2){
+            this.titles = data.data.testName
+            this.questionAnswers = data.data.questions
+            this.score = data.rank.countScore
+            this.correctRate = data.rank.ranking
+         }
+      }).catch(err=>{
+        console.log(err)
+      })
   },
   methods: {
     onClickLeft() {

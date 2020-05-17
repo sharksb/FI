@@ -10,6 +10,7 @@ import echarts from 'echarts'
 import '@/assets/font/iconfont.css';
 Vue.use(vueAxios, axios)
 Vue.prototype.$echarts = echarts
+Vue.prototype.apiPath = 'http://localhost:8081/'
 
 Vue.config.productionTip = false
 

@@ -10,18 +10,15 @@
         </div>
       </template>
       <div class="hwd_content">
-        <span class="correctAns">正确答案：{{questionAnswer.correctAns}}</span>
-        <span class="yourAns">你的答案：{{questionAnswer.yourAns}}</span>
+        <span class="correctAns">正确答案：{{questionAnswer.correctOption}}</span>
+        <span class="yourAns">你的答案：{{questionAnswer.yourAnswer}}</span>
       </div>
     </van-panel>
 
     <div class="testans_footer">
       <p>正确率:{{correctRate}}%</p>
-      <van-progress :percentage="correctRate" stroke-width="15" :show-pivot="false" />
-      <div v-if="currentAnswer">
-      <p>排名:{{rankRate}}%</p>
-      <van-progress :percentage="rankRate" stroke-width="15" :show-pivot="false" color="#F33952" />
-      </div>
+      <van-progress :percentage="parseInt(correctRate)" stroke-width="15" :show-pivot="false" />
+      <p>分数:{{score}}</p>
     </div>
   </div>
 </template>
@@ -34,23 +31,23 @@ export default {
       type: Boolean,
       default: false
     },
+    questionAnswers:{
+      type:Array,
+      default:[]
+    },
+    correctRate:{
+      type:String,
+      default:false,
+    },
+    score:{
+      type:Number,
+      default:false
+    }
+    
   },
   data() {
     return {
-      questionAnswers: [
-        {
-          title: ` 常见的网络银行自助处理系统有ATM系统、POS系统、电话银行系统和自助银行系统等。`,
-          correctAns:"A",
-          yourAns:"B"
-        },
-        {
-          title: ` 狭义的网络金融不包括。`,
-          correctAns:"B",
-          yourAns:"D"
-        }
-      ],
-      correctRate:50,
-      rankRate:40
+
     };
   },
   components: {

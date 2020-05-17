@@ -2,10 +2,10 @@
   <div class="radio">
     <van-panel :title="question.title" desc="单选">
       <div class="studenttest_content">
-        <van-field :name="'radio'+index" :rules="[{ required: true, message: '请选择答案' }]">
+        <van-field :name="(index+1).toString()" :rules="[{ required: true, message: '请选择答案' }]">
           <template #input>
             <van-radio-group v-model="radio">
-              <van-radio v-for="(item, index) in question.opt" :key="index"  :name="item">{{item}}:{{question.option[index]}}</van-radio>
+              <van-radio v-for="(item, index) in question.option" :key="index"  :name="item">{{question.opt[index]}}:{{item}}</van-radio>
             </van-radio-group>
           </template>
         </van-field>
@@ -19,7 +19,7 @@ import { Panel, RadioGroup, Radio, Field } from "vant";
 export default {
    props:{
      index: Number,
-    question:Object
+     question:Object
   },
   data() {
     return {

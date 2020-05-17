@@ -10,22 +10,31 @@ export default {
   data() {
     return {
       listtype:"test", 
-      testlist:[
-        {
-          time: "2020-01-17",
-          fileurl: "/students/passedTest",
-          filename: "第一次测试"
-        },
-        {
-          time: "2020-03-17",
-          fileurl: "/students/passedTest",
-          filename: "第四次测试"
-        }
-      ]
+      testlist:null
     };
   },
   components: {
     listgraph
+  },
+  beforeMount(){
+      this.axios({
+             method:'get',
+             url:`${this.apiPath}test/obtainTest`,
+         }).then((reponse=>{
+           let filelist = []
+           let dataContent =null
+           for(dataContent of reponse.data.data) {
+              filelist.push({
+                filename: dataContent.testName,
+                fileurl:'/students/passedTest',
+                time:dataContent.startTime
+              })
+           }
+           this.testlist = filelist
+
+         })).catch((err)=>{
+           console.log(err)
+         })
   }
 };
 </script>

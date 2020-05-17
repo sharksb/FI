@@ -6,15 +6,6 @@
   left-arrow
   @click-left="onClickLeft"/>
     <van-form @submit="onRegister">
-       <van-field
-        v-model="username"
-        name="username"
-        label="用户名"
-        placeholder="请输入用户名"
-        type="tel"
-        left-icon="phone-o"
-        :rules="[{ required: true, message: '请输入用户名'}]"
-      ></van-field>
       <van-field
         v-model="telephone"
         name="telphone"
@@ -83,7 +74,6 @@ export default {
   data() {
     return {
       smsMessage: "发送验证码",
-      username: "",
       password: "",
       telephone:"",
       sms: "",
@@ -109,43 +99,38 @@ export default {
         "password": md5(values.password),
         "idCard":values.studentId
       });
-      console.log(JSON.stringify(data))
       if(values){
-        // Toast('注册成功')
-
-  //       this.axios
-  //      .post('http://localhost:8081/user/register', JSON.stringify(data))
-  //      .then(function (response) {
-  //       console.log(response);
-  //       })
-  //      .catch(function (error) {
-  //       console.log(error);
-  // });
          this.axios({
              method:'post',
-             url:'http://localhost:8082/register',
+             url:`${this.apiPath}user/register`,
              headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
+               "Content-Type": "application/x-www-form-urlencoded"
+               },
              data: data
          }).then((reponse=>{
-           console.log(reponse)
+          
+           if(reponse.data.code == 1){
+              Toast(reponse.data.message)
+           }else if(reponse.data.code == 2){
+             Toast(reponse.data.message)
+           }else if(reponse.data.code == 3) {
+            console.log(reponse.data)
+            Toast(reponse.data.message)
+            let infor = reponse.data.data 
+            sessionStorage.setItem("isLogin",true)
+            sessionStorage.setItem("username", infor.username);
+            sessionStorage.setItem("idCard", infor.idCard);
+            sessionStorage.setItem("class", infor.class);
+            sessionStorage.setItem("telephone", infor.telephone);
+            sessionStorage.setItem("type", infor.type);
+            setTimeout(()=>{
+              this.$router.push({ path: "/" });
+            },2000)
+           }
+          
          })).catch((err)=>{
            console.log(err)
          })
-
-
-        //  if(values.telephone == '18822103912') {
-        //   console.log(values.telephone)
-        //   sessionStorage.setItem("personInfor","student")
-        // }else {
-        //    sessionStorage.setItem("personInfor","teacher")
-        // }
-        //   sessionStorage.setItem("isLogin",true)
-        //   sessionStorage.setItem("telephone", values.telephone);
-        // setTimeout(()=>{
-        //   this.$router.push({ path: '/'});
-        // },3000)
       }
     },
     validator(value){

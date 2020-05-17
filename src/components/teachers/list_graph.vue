@@ -3,11 +3,11 @@
     <div class="fl_box" v-for="(file, index) in filelist" :key="index">
       <img src="@/assets/filelist.png" alt />
       <h5>{{file.time}}</h5>
-      <h4 v-if="listtype == file">
-        <a :href="file.fileurl">{{file.filename}}</a>
+      <h4 v-if="listtype == 'file'">
+        <a :href="'http://localhost:8081/'+file.fileurl">{{file.filename}}</a>
       </h4>
-      <h4 v-else>
-        <a @click="toDeatil(file.fileurl)">{{file.filename}}</a>
+      <h4 v-if="listtype == 'test'">
+        <a @click="toDeatil(file.fileurl,file.filename)">{{file.filename}}</a>
       </h4>
     </div>
   </div>
@@ -23,10 +23,8 @@ export default {
     return {};
   },
   methods:{
-  toDeatil(e){
-   if(e.indexOf('passedTest') >  -1) {
-      this.$router.push({path:e})
-   }
+  toDeatil(url,name){
+      this.$router.push({path:url , query: { testName: name }})
   }  
   }
 };
@@ -54,5 +52,6 @@ export default {
 }
 .fl_box h4 a {
   color: #2c3e50;
+  font-size: 16px;
 }
 </style>

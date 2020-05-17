@@ -23,7 +23,6 @@
         <span>{{infor.title}}</span>
         <p>{{infor.content}}</p>
       </div>
-
     </div>
     <toolbar></toolbar>
   </div>
@@ -66,6 +65,11 @@ export default {
           id: "testScore",
           name: "测试成绩",
           className: "icon-chengji"
+        },
+        {
+          id: "management",
+          name: "管理",
+          className: "icon-laoshi"
         }
       ],
       newInformation: [
@@ -120,6 +124,9 @@ export default {
               path: "/teachers/releaseTest",
               query: { active: "testScore" }
             });
+            break;
+          case "management":
+            this.$router.push({path: "/teachers/mangement"});
             break;
         }
       } else {

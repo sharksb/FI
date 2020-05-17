@@ -28,18 +28,14 @@
           <span>互联网金融</span>
         </div>
         <div class="second_content">
-          <a href="http://www.opp2.com/172460.html" target="_blank">
+          <a :href="linkUrl" target="_blank">
             <div class="secondCon_title">
               <i class="iconfont icon-zixunf"></i>
-              <span>2019的互联网金融分析！</span>
+              <span>{{title}}</span>
             </div>
             <div class="secondCon_content">
-              <p>
-                2019，互联网金融退潮，十年繁华，梦幻一场。
-                互金退潮，不少银行松了口气：少了它们“捣乱”2019，互联网金融退潮，十年繁华，梦幻一场。
-                互金退潮，不少银行松了口气：少了它们“捣乱”
-              </p>
-              <span>来源：青瓜传媒</span>
+              <p>{{content}}</p>
+              <span>来源：{{source}}</span>
             </div>
           </a>
         </div>
@@ -122,7 +118,11 @@ export default {
         loop: true,
         autoplay: true,
         delay: 2000
-      }
+      },
+      title: "",
+      content: "",
+      source: "",
+      linkUrl: ""
     };
   },
   components: {
@@ -139,6 +139,21 @@ export default {
   },
   beforeMount() {
     this.isLogin = sessionStorage.getItem("isLogin");
+    this.axios({
+      url: `${this.apiPath}user/obtainInformation`,
+      method: "get"
+    })
+      .then(reponse => {
+        console.log(reponse);
+        let news = reponse.data.data;
+        this.title = news.title;
+        this.content = news.content;
+        this.source = news.source;
+        this.linkUrl = news.linkUrl;
+      })
+      .catch(err => {
+        console.log(err);
+      });
   },
   mounted() {
     // this.swiper.slideTo(1, 1000, true);

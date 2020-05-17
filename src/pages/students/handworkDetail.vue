@@ -3,9 +3,9 @@
     <van-nav-bar title="提交" left-text="提交作业" left-arrow @click-left="onClickLeft" />
     <div class="hwd_title">
       <img src="@/assets/fileDetail.png" alt />
-      <span>互联网金融第三次作业</span>
+      <span>{{filename}}</span>
     </div>
-    <van-uploader :after-read="afterRead" deletable v-model="stufileList">
+    <van-uploader :after-read="afterRead" deletable v-model="stufileList" multiple :max-count="1" @oversize="overFile" :max-size="3145728">
       <van-button class="uploaderBut" icon="plus" type="primary"></van-button>
     </van-uploader>
     <div class="sendFilBut">
@@ -19,7 +19,8 @@ import { NavBar, Uploader, Button, Toast } from "vant";
 export default {
   data() {
     return {
-      stufileList: []
+      stufileList: [],
+      filename:''
     };
   },
   components: {
@@ -28,30 +29,57 @@ export default {
     [Button.name]: Button,
     [Toast.name]: Toast
   },
+  beforeMount(){
+   let filename = this.$route.query.filename;
+   this.filename = filename
+  },
   methods: {
     onClickLeft() {
      this.$router.push({ path: "/students/handHomework" });
     },
-    afterRead(file) {
-      console.log(file);
-    },
+
     onSendFile() {
+      let stufile = null;
+      for(stufile of this.stufileList){
+      let file = stufile.file
+      let formData = new FormData()
+      formData.append('file', file)
+      formData.append('filename', this.$route.query.filename)
+      formData.append('idCard', sessionStorage.getItem("idCard"))
+      console.log(formData)
+      // this.axios({
+      //        method:'post',
+      //        url:`${this.apiPath}file/remove`,
+      //        headers: {
+      //       "Content-Type": "multipart/form-data"
+      //   },
+      //        data: formData
+      //    }).then((reponse=>{
+      //      console.log(reponse)
+      //      let data = reponse.data
+      //      if(data.code==1){
+      //         Toast(data.data)
+      //      }
+      //    })).catch((err)=>{
+      //      console.log(err)
+      //    })
+      }
       if (this.stufileList.length == 0) {
         console.log("nihao");
         Toast({
           message: "请上传文件",
           icon: "cross"
         });
-      } else {
-        Toast({
-          message: "上传成功",
-          icon: "success"
-        });
-        setTimeout(() => {
-          this.$router.go(-1);
-        }, 2000);
-      }
+      } 
+        // setTimeout(() => {
+        //   this.$router.go(-1);
+        // }, 2000);
+     
       console.log(this.stufileList);
+    },
+    overFile(value){
+      console.log(value)
+      Toast("文件大小超过了3M")
     }
   }
 };

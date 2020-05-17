@@ -3,11 +3,11 @@
     <div class="obtainFile_box" v-for="(file, index) in files" :key="index">
       <img src="@/assets/filelist.png" alt />
       <div>
-      <h5>{{file.time}}</h5>
-      <span><a href="@/file/《互联网金融》课程网站研究.docx" download>下载</a></span>
+      <h5>{{file.uploadtime}}</h5>
+      <span><a :href="'http://localhost:8081/upload/'+file.file" download>下载</a></span>
       </div>
       <h4>
-       {{file.title}}
+       {{file.file}}
       </h4>
     </div>
   </div>
@@ -17,19 +17,20 @@
 export default {
     data() {
         return {
-          files:[
-              {
-                  time:"2020-01-15",
-                  url:"#",
-                  title:"第二章ppt"
-              },
-              {
-                  time:"2020-02-15",
-                  url:"#",
-                  title:"第三章ppt"
-              }
-          ]
+          files:null
         }
+    },
+    beforeMount(){
+         this.axios({
+             method:'get',
+             url:`${this.apiPath}file/showFile`,
+         }).then((reponse=>{
+           console.log(reponse.data)
+           this.files = reponse.data
+         })).catch((err)=>{
+           console.log(err)
+         })
+
     }
 }
 </script>

@@ -22,7 +22,9 @@ import testScore from '@/pages/teachers/testScore'
 import reviseDetail from '@/pages/teachers/reviseDetail'
 import tclassTestDetail from '@/pages/teachers/tclassTestDetail'
 import testStasticDetail from '@/pages/teachers/testStasticDetail'
-import sdfile from '@/components/teachers/radio_selected'
+import mangement from '@/pages/teachers/mangement'
+import sdfile from '@/components/teachers/internet_info'
+
 
 // 学生
 import handHomework from '@/pages/students/handHomework'
@@ -147,6 +149,11 @@ export default new Router({
       path: '/teachers/testStasticDetail',
       name: 'testStasticDetail',
       component: testStasticDetail
+    },
+    {
+      path: '/teachers/mangement',
+      name: 'mangement',
+      component: mangement
     },
     {
       path: '/teachers/sdfile',

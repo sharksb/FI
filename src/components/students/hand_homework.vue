@@ -1,70 +1,27 @@
 <template>
   <div class="hand_homework">
-    <div >
-      <van-panel>
+    <div>
+      <van-panel v-for="(file, index) in files" :key="index">
         <template #header>
           <div class="hw_content">
             <div class="hwcon_title">
               <img src="@/assets/fileDetail.png" alt />
-              <span>互联网金融第三次作业</span>
+              <span>
+                <a :href="'http://localhost:8081/'+file.fileUrl" download>{{file.homeFile}}</a>
+              </span>
             </div>
-            <span class="hwcon_status" style="color:#EE1212">未提交</span>
+            <span
+              class="hwcon_status"
+              :class="[file.isUpload == 'false' ? isUploadClor : '']"
+            >{{file.isUpload == "false"?'未提交':'已提交'}}</span>
           </div>
         </template>
-        <div class="hwcon_content">
-          <h3>截止日期：2020-02-15</h3>
-          <van-button to="/students/handworkDetail">提交</van-button>
-        </div>
-      </van-panel>
 
-       <van-panel>
-        <template #header>
-          <div class="hw_content">
-            <div class="hwcon_title">
-              <img src="@/assets/fileDetail.png" alt />
-              <span>互联网金融问答题</span>
-            </div>
-            <span class="hwcon_status" style="color:#1989fa">已提交</span>
-          </div>
-        </template>
-        <div class="hwcon_content">
-          <h3>截止日期：2020-02-15</h3>
-          <van-button to="/students/handworkDetail">再次提交</van-button>
+        <div class="hwcon_content" >
+          <p>上传时间:{{file.uploadTime}}</p>
+          <van-button @click="toSubmit(file.homeFile)" v-if="file.isUpload == 'false'">提交</van-button>
         </div>
       </van-panel>
-
-       <van-panel>
-        <template #header>
-          <div class="hw_content">
-            <div class="hwcon_title">
-              <img src="@/assets/fileDetail.png" alt />
-              <span>互联网金融问答题</span>
-            </div>
-            <span class="hwcon_status" style="color:#1989fa">已提交</span>
-          </div>
-        </template>
-        <div class="hwcon_content">
-          <h3>截止日期：2019-12-15</h3>
-          <van-button to="/students/homeworkDetail">分数：87</van-button>
-        </div>
-      </van-panel>
-
-       <van-panel>
-        <template #header>
-          <div class="hw_content">
-            <div class="hwcon_title">
-              <img src="@/assets/fileDetail.png" alt />
-              <span>互联网金融问答题</span>
-            </div>
-            <span class="hwcon_status" style="color:#EE1212">未提交</span>
-          </div>
-        </template>
-        <div class="hwcon_content">
-          <h3>截止日期：2019-12-15</h3>
-          <van-button>分数：0</van-button>
-        </div>
-      </van-panel>
-      
     </div>
   </div>
 </template>
@@ -73,45 +30,86 @@
 import { Panel, Button } from "vant";
 export default {
   data() {
-    return {};
+    return {
+      files: [],
+      isUploadClor:'isUploadClor'
+    };
   },
   components: {
     [Panel.name]: Panel,
     [Button.name]: Button
+  },
+  beforeMount(){
+        let idCard = sessionStorage.getItem("idCard")
+        this.axios({
+        url: `${this.apiPath}file/showHomework?idCard=${idCard}`,
+        method: "get"
+      }).then(response => {
+         console.log(response)
+         let data = response.data
+         this.files = data
+      }).catch(err=>{
+        console.log(err)
+      })
+  },
+  methods: {
+    toSubmit(filename){
+      this.$router.push({
+          path: "/students/handworkDetail",
+          query: {filename:filename}
+       })
+      }
   }
 };
 </script>
 
 <style scoped>
-.hand_homework{
-    width: 80%;
-    margin: 2rem auto 0 auto;
+.hand_homework {
+  width: 80%;
+  margin: 2rem auto 0 auto;
 }
-h3{
-    margin: 0;
-    font-size: 12px;
+h3 {
+  margin: 0;
+  font-size: 12px;
 }
-.hw_content{
-    display: flex;
-    justify-content: space-between;
+.hw_content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .hwcon_title {
   display: flex;
   align-items: center;
+  width: 75%;
 }
-.hwcon_title span{
-    margin-left: 15px;
+.hwcon_title span {
+  margin-left: 15px;
 }
-.hwcon_content{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+
+.hwcon_title span a{
+  color: #000;
+}
+.hwcon_content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .hwcon_content button {
   border-radius: 15px;
   margin: 1rem 0;
 }
-.van-cell-group{
-    margin-bottom: 2rem;
+
+.hwcon_content p{
+  font-size: 14px;
+}
+.van-cell-group {
+  margin-bottom: 2rem;
+}
+.isUploadClor{
+  color: #ee1212;
+}
+
+.hwcon_status {
+  width: 16%;
 }
 </style>

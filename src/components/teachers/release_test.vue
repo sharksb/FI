@@ -1,7 +1,7 @@
 <template>
   <div class="releas_test">
     <van-button @click="releaseTest" class="testButton" round block>发布测试</van-button>
-    <listgraph :filelist="filelist"></listgraph>
+    <listgraph :filelist="filelist" :listtype="listtype"></listgraph>
   </div>
 </template>
 
@@ -11,23 +11,34 @@ import listgraph from "@/components/teachers/list_graph";
 export default {
   data() {
     return {
-      filelist: [
-        {
-          time: "2020-01-17",
-          fileurl: "#",
-          filename: "第二次测试"
-        },
-        {
-          time: "2020-12-17",
-          fileurl: "#",
-          filename: "第一次测试"
-        }
-      ]
+      listtype:"test",
+      filelist: []
     };
   },
   components: {
     [Button.name]: Button,
     listgraph
+  },
+  beforeMount(){
+       this.axios({
+             method:'get',
+             url:`${this.apiPath}test/obtainTest`,
+         }).then((reponse=>{
+           let filelist = []
+           let dataContent =null
+           console.log(reponse)
+           for(dataContent of reponse.data.data) {
+              filelist.push({
+                filename: dataContent.testName,
+                time:dataContent.startTime
+              })
+           }
+           console.log(filelist)
+           this.filelist = filelist
+
+         })).catch((err)=>{
+           console.log(err)
+         })
   },
   methods: {
     releaseTest() {

@@ -59,6 +59,8 @@
 
 <script>
 import { Button, Field, Form, NavBar, Toast } from "vant";
+import md5 from "js-md5";
+import qs from "qs";
 export default {
   data() {
     return {
@@ -79,11 +81,33 @@ export default {
   },
   methods: {
     onRegister(values) {
-      console.log("submit", values);
-      Toast("密码修改成功");
-      setTimeout(() => {
-        this.$router.push({ path: "/personCneter" });
-      }, 2000);
+      let data = qs.stringify({
+        telephone: values.telphone,
+        password: md5(values.password)
+      });
+      this.axios({
+        method: "post",
+        url: `${this.apiPath}user/resetPassword`,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        data: data
+      })
+        .then(response => {
+          console.log(response);
+          if (response.data.code == 1) {
+            Toast("密码修改成功");
+            setTimeout(() => {
+              this.$router.push({ path: "/personCneter" });
+            }, 2000);
+          } else {
+            Toast("密码修改失败");
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+
     },
     validator(value) {
       return this.resetpassword === this.password;

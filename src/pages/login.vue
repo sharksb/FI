@@ -51,7 +51,7 @@ export default {
         password: md5(values.password)
       });
       this.axios({
-        url: "http://127.0.0.1:8082/login",
+        url: `${this.apiPath}user/login`,
         method: "post",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded"

@@ -11,7 +11,7 @@ import { Tabbar, TabbarItem } from "vant";
 export default {
   data() {
     return {
-      personInfor: null,
+      type: null,
       path:''
     };
   },
@@ -20,8 +20,8 @@ export default {
     [TabbarItem.name]: TabbarItem
   },
   beforeMount() {
-     this.personInfor = sessionStorage.getItem("personInfor");
-    if(this.personInfor == 'student') {
+     this.type = sessionStorage.getItem("type");
+    if(this.type == "学生") {
       this.path = '/sfeature'
     }else{
       this.path = '/tfeature'

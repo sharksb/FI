@@ -2,14 +2,14 @@
   <div class="checkbox">
     <van-panel :title="question.title" desc="多选">
       <div class="studenttest_content">
-        <van-field :name="'checkbox'+index"  :rules="[{ required: true, message: '请选择答案' }]">
+        <van-field :name="(index+1).toString()"  :rules="[{ required: true, message: '请选择答案' }]">
           <template #input>
             <van-checkbox-group v-model="checkbox">
               <van-checkbox
-                v-for="(item, index) in question.opt"
+                v-for="(item, index) in question.option"
                 :key="index"
                 :name="item"
-              >{{item}}:{{question.option[index]}}</van-checkbox>
+              >{{question.opt[index]}}:{{item}}</van-checkbox>
             </van-checkbox-group>
           </template>
         </van-field>
