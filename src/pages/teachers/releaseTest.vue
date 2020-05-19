@@ -9,7 +9,7 @@
         <teststatistics testtype="testStatis"></teststatistics>
       </van-tab>
       <van-tab title="测试成绩" name="testScore">
-        <teststatistics testtype="testScore"></teststatistics>
+        <teststatisticsScore></teststatisticsScore>
       </van-tab>
     </van-tabs>
   </div>
@@ -19,6 +19,7 @@
 import { NavBar, Tab, Tabs } from "vant";
 import releasetest from "@/components/teachers/release_test";
 import teststatistics from "@/components/teachers/test_statistics";
+import teststatisticsScore from "@/components/teachers/test_statisticScore"
 export default {
   data() {
     return {
@@ -33,7 +34,8 @@ export default {
     [Tab.name]: Tab,
     [Tabs.name]: Tabs,
     releasetest,
-    teststatistics
+    teststatistics,
+    teststatisticsScore
   },
   methods: {
     onClickLeft() {

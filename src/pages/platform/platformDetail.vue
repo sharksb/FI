@@ -3,18 +3,18 @@
     <van-nav-bar title="论坛" left-text="返回" left-arrow @click-left="onClickLeft" />
     <div class="platformDetail_title">
       <img src="@/assets/person/avater.png" alt />
-      <p>{{postMan.title}}</p>
+      <p>{{title}}</p>
     </div>
     <div class="platformDetail_time">
-      <span>发布人：{{postMan.name}}</span>
-      <span>发帖时间：{{postMan.time}}</span>
+      <span>发布人：{{username}}</span>
+      <span>发帖时间：{{time}}</span>
     </div>
 
     <div class="platformDetail_box" v-for="(replyMan, index) in replyMen" :key="index">
       <div class="pfbox_title">
         <div class="pfboxTitle_avater">
           <img src="@/assets/person/avater.png" alt />
-          <h3>{{replyMan.name}}</h3>
+          <h3>{{replyMan.username}}</h3>
         </div>
         <p>{{replyMan.title}}</p>
       </div>
@@ -42,20 +42,10 @@ import app from "@/api/app.js";
 export default {
   data() {
     return {
-      postMan: {
-        name: "白玉",
-        avater: "@/assets/person/avater.png",
-        title: "有哪位童鞋知道损失厌恶是什么吗",
-        time: "2020-02-14"
-      },
-      replyMen: [
-        {
-          name: "大宝",
-          avater: "@/assets/person/avater.png",
-          title: "不知道",
-          time: "2020-02-15"
-        }
-      ],
+      username: "",
+      title: "",
+      time: "",
+      replyMen: [],
       message: ""
     };
   },
@@ -64,24 +54,66 @@ export default {
     [Field.name]: Field,
     [Button.name]: Button
   },
+  beforeMount() {
+    let username = this.$route.query.username;
+    let title = this.$route.query.title;
+    this.axios({
+      url: `${this.apiPath}paltform/showPlatformDetail?username=${username}&title=${title}`,
+      method: "get"
+    })
+      .then(response => {
+        let data = response.data;
+        console.log(response)
+        if (data.code == 2) {
+          this.username = data.data[0].username;
+          this.title = data.data[0].title;
+          this.time = data.data[0].time;
+          this.replyMen = data.data[0].platformDetails;
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  },
   methods: {
     onClickLeft() {
       this.$router.push({ path: "/platform" });
     },
     sendMessage() {
+
       if (sessionStorage.getItem("isLogin")) {
+        let username = this.$route.query.username;
+        let title = this.$route.query.title;
+        console.log(username,title)
+        let sendusername = sessionStorage.getItem("username");
+        let sendtitle = this.message;
+        let sendInfo =  JSON.stringify({
+          username,
+          title,
+          sendusername,
+          sendtitle
+        });
+        this.axios({
+          url: `${this.apiPath}platform/writePlatformDetail`,
+          method: "post",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          data: sendInfo
+        }).then(response => {
+          console.log(response);
+        }).catch(err=>{
+          console.log(err)
+        })
         this.replyMen.push({
-          name: sessionStorage.getItem("userName"),
-          avater: "@/assets/person/avater.png",
+          username: sessionStorage.getItem("username"),
           title: this.message,
-          time: app.getNowDate()
+          time: app.transformMinutes(new Date())
         });
          this.message = "";
-      }else {
-          this.$router.push({ path: "/personCneter" });
+      } else {
+        this.$router.push({ path: "/personCneter" });
       }
-
-     
     }
   }
 };

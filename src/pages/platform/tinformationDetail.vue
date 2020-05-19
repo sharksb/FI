@@ -1,21 +1,15 @@
 <template>
   <div class="informationDetail">
-    <van-nav-bar :title="reciveusername" left-text="返回" left-arrow @click-left="onClickLeft" />
+    <van-nav-bar title="授课老师" left-text="返回" left-arrow @click-left="onClickLeft" />
     <div class="informationDetail_box" v-for="(message, index) in messages" :key="index">
-      <div class="infor_self" v-if="message.sendidcard == idCard">
-        <span>{{message.title}}</span>
-        <img src="@/assets/person/avater.png" alt />
-      </div>
-      <div class="infor_other" v-else>
+
+      <div class="infor_other" >
         <img src="@/assets/person/avater.png" alt />
         <span>{{message.title}}</span>
       </div>
     </div>
 
-    <div class="inputValue">
-      <van-field v-model="inputValue" placeholder="请输入..." class="inputField" />
-      <van-button @click="sendMesage">发送</van-button>
-    </div>
+    
   </div>
 </template>
 
@@ -24,9 +18,6 @@ import { NavBar, Field, Button } from "vant";
 export default {
   data() {
     return {
-      reciveusername: "",
-      inputValue: "",
-      idCard: "",
       messages: []
     };
   },
@@ -36,12 +27,8 @@ export default {
     [Button.name]: Button
   },
   beforeMount() {
-    this.reciveusername = this.$route.query.username;
-    let reciveidcard = this.$route.query.idcard;
-    let sendidcard = sessionStorage.getItem("idCard");
-    this.idCard = parseInt(sessionStorage.getItem("idCard"));
     this.axios({
-      url: `${this.apiPath}platform/showOneMessage?reciveidcard=${reciveidcard}&sendidcard=${sendidcard}`,
+      url: `${this.apiPath}platform/obtainTeacher`,
       method: "get"
     })
       .then(response => {
@@ -49,9 +36,7 @@ export default {
         let data = response.data;
         if (data.code == 2) {
           console.log(data);
-          if (data.data.length != 0) {
-            this.messages = data.data;
-          }
+          this.messages = data.data
         }
       })
       .catch(err => {

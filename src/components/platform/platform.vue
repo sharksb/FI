@@ -4,13 +4,13 @@
       class="platform_box"
       v-for="(userinfro, index) in userinfros"
       :key="index"
-      @click="toDetail"
+      @click="toDetail(userinfro.username,userinfro.title)"
     >
       <p>{{userinfro.title}}</p>
       <div class="pbox_bottom">
         <div class="pboxBottom_l">
           <img src="@/assets/person/avater.png" alt />
-          <span>{{userinfro.name}}</span>
+          <span>{{userinfro.username}}</span>
         </div>
         <span>{{userinfro.time}}</span>
       </div>
@@ -32,26 +32,13 @@
 
 <script>
 import toolbar from "@/components/toolbar";
-import app from "@/api/app.js"
+import app from "@/api/app.js";
 import { Field, Button, Toast } from "vant";
 export default {
   data() {
     return {
       isLogin: null,
-      userinfros: [
-        {
-          name: "李白",
-          avater: "@/assets/person/avater.png",
-          time: "2020-02-11",
-          title: "有哪位童鞋知道损失厌恶是什么吗"
-        },
-        {
-          name: "李白",
-          avater: "../../assets/person/avater.png",
-          time: "2020-02-11",
-          title: "有哪位童鞋知道损失厌恶是什么吗"
-        }
-      ],
+      userinfros: [],
       message: ""
     };
   },
@@ -63,26 +50,68 @@ export default {
   },
   beforeMount() {
     this.isLogin = sessionStorage.getItem("isLogin");
+     this.axios({
+            url: `${this.apiPath}platform/showPlatform`,
+            method: "get",
+          }).then(response => {
+             console.log(response)
+             let data = response.data
+             if(data.code == 1){
+               Toast(data.message)
+             }else if(data.code ==2){
+               this.userinfros = data.data
+             }
+          }).catch(error=>{
+            console.log(error)
+          })
   },
   methods: {
     sendMessage() {
       if (this.isLogin) {
         if (this.message != "") {
-          this.userinfros.push({
-            name: sessionStorage.getItem("userName"),
-            avater: "../../assets/person/avater.png",
-            time: app.getNowDate(),
+          let platformInfo = JSON.stringify({
+            username: sessionStorage.getItem("username"),
             title: this.message
           });
-        } else {
-          Toast("请输入内容");
+
+          this.axios({
+            url: `${this.apiPath}platform/writePlatform`,
+            method: "post",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            data: platformInfo
+          }).then(response => {
+             console.log(response)
+             let data = response.data
+             if(data.code == 1){
+               Toast(data.message)
+             }else if(data.code ==2){
+               Toast(data.message)
+               this.message = ''
+             }
+          }).catch(error=>{
+            console.log(error)
+          })
+
+          this.userinfros.push({
+            username: sessionStorage.getItem("username"),
+            time: app.transformMinutes(new Date()),
+            title: this.message
+          });
+        
         }
-      }else {
-        this.$router.push({ path: "/personCneter" });
       }
     },
-    toDetail() {
-      this.$router.push({ path: "/platformDetail" });
+    toDetail(username,title) {
+      this.$router.push(
+        { path: "/platformDetail",
+          query:{
+            username:username,
+            title:title
+          }
+         }
+        );
     }
   }
 };

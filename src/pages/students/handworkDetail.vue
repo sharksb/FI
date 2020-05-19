@@ -5,7 +5,14 @@
       <img src="@/assets/fileDetail.png" alt />
       <span>{{filename}}</span>
     </div>
-    <van-uploader :after-read="afterRead" deletable v-model="stufileList" multiple :max-count="1" @oversize="overFile" :max-size="3145728">
+    <van-uploader
+      deletable
+      v-model="stufileList"
+      multiple
+      :max-count="1"
+      @oversize="overFile"
+      :max-size="3145728"
+    >
       <van-button class="uploaderBut" icon="plus" type="primary"></van-button>
     </van-uploader>
     <div class="sendFilBut">
@@ -20,7 +27,7 @@ export default {
   data() {
     return {
       stufileList: [],
-      filename:''
+      filename: ""
     };
   },
   components: {
@@ -29,40 +36,45 @@ export default {
     [Button.name]: Button,
     [Toast.name]: Toast
   },
-  beforeMount(){
-   let filename = this.$route.query.filename;
-   this.filename = filename
+  beforeMount() {
+    let filename = this.$route.query.filename;
+    this.filename = filename;
   },
   methods: {
     onClickLeft() {
-     this.$router.push({ path: "/students/handHomework" });
+      this.$router.push({ path: "/students/handHomework" });
     },
 
     onSendFile() {
       let stufile = null;
-      for(stufile of this.stufileList){
-      let file = stufile.file
-      let formData = new FormData()
-      formData.append('file', file)
-      formData.append('filename', this.$route.query.filename)
-      formData.append('idCard', sessionStorage.getItem("idCard"))
-      console.log(formData)
-      // this.axios({
-      //        method:'post',
-      //        url:`${this.apiPath}file/remove`,
-      //        headers: {
-      //       "Content-Type": "multipart/form-data"
-      //   },
-      //        data: formData
-      //    }).then((reponse=>{
-      //      console.log(reponse)
-      //      let data = reponse.data
-      //      if(data.code==1){
-      //         Toast(data.data)
-      //      }
-      //    })).catch((err)=>{
-      //      console.log(err)
-      //    })
+      for (stufile of this.stufileList) {
+        let file = stufile.file;
+        let formData = new FormData();
+        formData.append("file", file);
+        formData.append("fileName", this.$route.query.filename);
+        formData.append("idCard", sessionStorage.getItem("idCard"));
+        console.log(formData);
+        this.axios({
+          method: "post",
+          url: `${this.apiPath}file/uploadHomework`,
+          headers: {
+            "Content-Type": "multipart/form-data"
+          },
+          data: formData
+        })
+          .then(reponse => {
+            console.log(reponse);
+            let data = reponse.data;
+            if (data.code == 2) {
+              Toast(data.message);
+              setTimeout(() => {
+                this.$router.push({ path: "/students/handHomework" });
+              }, 2000);
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
       }
       if (this.stufileList.length == 0) {
         console.log("nihao");
@@ -70,16 +82,13 @@ export default {
           message: "请上传文件",
           icon: "cross"
         });
-      } 
-        // setTimeout(() => {
-        //   this.$router.go(-1);
-        // }, 2000);
-     
+      }
+
       console.log(this.stufileList);
     },
-    overFile(value){
-      console.log(value)
-      Toast("文件大小超过了3M")
+    overFile(value) {
+      console.log(value);
+      Toast("文件大小超过了3M");
     }
   }
 };

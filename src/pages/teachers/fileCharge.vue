@@ -7,18 +7,30 @@
         <img src="@/assets/submit.png" alt />
         <span>已交</span>
       </div>
-      <div class="submitHomework" v-for="(homework, index) in submitHomework" :key="index">
-        <h1>{{homework.className}}</h1>
-        <h2>{{homework.submitCount}}人</h2>
-        <a :href="homework.url">下载</a>
-      </div>
+        <van-collapse  v-model="activeName" accordion>
+        <div v-for="(homework, index) in submitHomework" :key="index">
+          <van-collapse-item
+            :title="homework.className"
+            :name="index"
+            :value="homework.submitCount"
+          >
+            <ul>
+              <li v-for="(item ,index) in homework.studentInfor" :key="index">
+                <span>{{item.studentName}}</span>
+                {{item.studentId}}
+                <a :href="'http://localhost:8081/'+item.stuUrl" download>下载</a>
+              </li>
+            </ul>
+          </van-collapse-item>
+        </div>
+      </van-collapse>
 
       <!-- 未交 -->
       <div class="hwdetail_title">
         <img src="@/assets/submit.png" alt />
         <span>未交</span>
       </div>
-      <van-collapse v-model="activeName" accordion>
+      <van-collapse v-model="activeNames" accordion>
         <div v-for="(noHomework, index) in nosubmitHomework" :key="index">
           <van-collapse-item
             :title="noHomework.className"
@@ -45,54 +57,10 @@ import { NavBar, Collapse, CollapseItem, Button } from "vant";
 export default {
   data() {
     return {
-      submitHomework: [
-        {
-          className: "信息1601",
-          submitCount: 30,
-          url: "#"
-        },
-        {
-          className: "信息1602",
-          submitCount: 31,
-          url: "#"
-        },
-        {
-          className: "信息1603",
-          submitCount: 32,
-          url: "#"
-        }
-      ],
-      nosubmitHomework: [
-        {
-          className: "信息1601",
-          nosubmitCount: 2,
-          studentInfor: [
-            {
-              studentName: "李煜",
-              studentId: 20165175
-            },
-            {
-              studentName: "大红",
-              studentId: 20164125
-            }
-          ]
-        },
-        {
-          className: "信息1602",
-          nosubmitCount: 2,
-          studentInfor: [
-            {
-              studentName: "李煜",
-              studentId: 20165175
-            },
-            {
-              studentName: "大红",
-              studentId: 20164125
-            }
-          ]
-        }
-      ],
-      activeName: "1"
+      submitHomework: [],
+      nosubmitHomework: [],
+      activeName: ['1'],
+      activeNames: ['1']
     };
   },
   components: {
@@ -101,6 +69,21 @@ export default {
     [CollapseItem.name]: CollapseItem,
     [Button.name]: Button
   },
+    beforeMount(){
+      let filename = this.$route.query.filename
+        this.axios({
+             method:'get',
+             url:`${this.apiPath}file/showHomeworkDetail?filename=${filename}`,
+         }).then((reponse=>{ 
+           console.log(reponse)
+           let data = reponse.data
+           this.nosubmitHomework = data.data.nosubmitHomework
+           this.submitHomework =  data.data.submitHomework
+           console.log(this.nosubmitHomework)
+         })).catch((err)=>{
+           console.log(err)
+         })
+    },
   methods: {
     onClickLeft() {
        this.$router.push({ path: "/teachers/sendFile",query:{active:'homeworkList'} });

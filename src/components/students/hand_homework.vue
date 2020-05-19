@@ -12,14 +12,14 @@
             </div>
             <span
               class="hwcon_status"
-              :class="[file.isUpload == 'false' ? isUploadClor : '']"
-            >{{file.isUpload == "false"?'未提交':'已提交'}}</span>
+              :class="[judgementIsupload(file.isUpload) ? isUploadClor : '']"
+            >{{judgementIsupload(file.isUpload)?'未提交':'已提交'}}</span>
           </div>
         </template>
 
         <div class="hwcon_content" >
           <p>上传时间:{{file.uploadTime}}</p>
-          <van-button @click="toSubmit(file.homeFile)" v-if="file.isUpload == 'false'">提交</van-button>
+          <van-button @click="toSubmit(file.homeFile)" v-if="judgementIsupload(file.isUpload)">提交</van-button>
         </div>
       </van-panel>
     </div>
@@ -53,6 +53,13 @@ export default {
       })
   },
   methods: {
+    judgementIsupload(status){
+        if(status =="false" || status ==null){
+          return true
+        }else {
+          return false
+        }
+    },
     toSubmit(filename){
       this.$router.push({
           path: "/students/handworkDetail",

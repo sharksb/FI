@@ -1,22 +1,54 @@
 <template>
   <div class="classtest">
-      <van-button round block to="/students/currentTest">进入当前测试</van-button>
-      <p>2020-01-17</p>
+      <van-button round block  @click="enterTest">进入当前测试</van-button>
+      <p>{{date}}</p>
   </div>
 </template>
 
 <script>
-import { Button } from "vant";
+import { Button, Toast } from "vant";
+import app from "@/api/app"
 export default {
   data() {
     return {
-
+      date:''
     };
   },
   components: {
     [Button.name]: Button
   },
-  methods: {}
+  beforeMount(){
+     this.date = app.getNowDate()
+  },
+  methods:{
+    // to="/students/currentTest"
+     enterTest(){
+       let idCard = sessionStorage.getItem("idCard")
+       this.axios({
+       method: "get",
+       url: `${this.apiPath}test/judgementCurrentTest?idCard=${idCard}`
+      })
+      .then(reponse => {
+        console.log(reponse);
+        let data = reponse.data
+        if(data.code == 1){
+          Toast(`测试已在${data.data}结束`)
+        }else if(data.code == 2){
+           Toast(data.message)
+        }else if(data.code == 3){
+          this.$router.push(
+            {path:'/students/currentTest',
+            query:{
+              testName:data.data
+            }}
+          )
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+     }
+  }
 };
 </script>
 

@@ -28,7 +28,7 @@ export default {
           filelist.push({
             filename: dataContent.testName,
             time: dataContent.startTime,
-            fileurl: "/teachers/testStasticDetail"
+            fileurl: "/teachers/testScore"
           });
         }
         console.log(filelist);

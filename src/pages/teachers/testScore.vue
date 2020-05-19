@@ -13,11 +13,12 @@
           </template>
           <ul>
             <li>
-              <span>总人数：{{testScore.studentCount}}/测试人数：{{testScore.testStudentCount}}</span>测试成绩
+              <span>总人数：{{testScore.studentCount}}</span>测试成绩
             </li>
-            <li v-for="(item ,index) in testScore.studentInfor" :key="index">
-              <span>{{item.studentName}}</span>
-              {{item.studentSoce}}
+            <li v-for="(item ,index) in testScore.studentInfor" :key="index" class="testScore_li">
+              <h6>{{item.studentName}}</h6>
+               <h6>{{item.studentId}}</h6>
+               <h6>{{item.studentSoce}}</h6>
             </li>
           </ul>
         </van-collapse-item>
@@ -96,7 +97,6 @@ export default {
         {
           className: "信息1602",
           studentCount: 32,
-          testStudentCount: 29,
           studentInfor: [
               {
               studentName: "李煜",
@@ -135,7 +135,6 @@ export default {
         {
           className: "信息1603",
           studentCount: 32,
-          testStudentCount: 29,
           studentInfor: [
             {
               studentName: "李煜",
@@ -189,6 +188,22 @@ export default {
     [CollapseItem.name]: CollapseItem,
     [Button.name]: Button,
     [Icon.name]: Icon
+  },
+  beforeMount(){
+    let testName = this.$route.query.testName
+      this.axios({
+      method: "get",
+      url: `${this.apiPath}test/obtainScore?testName=${testName}`
+    })
+      .then(reponse => {
+        let data = reponse.data
+        if(data.code ==2){
+          this.testScores = data.data
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   },
   methods: {
     onClickLeft() {
@@ -247,5 +262,18 @@ li {
 }
 .alertButton {
   margin-top: 2rem;
+}
+
+.testScore_li {
+  display: flex;
+  justify-content: space-between;
+}
+
+.testScore_li h6 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 500;
+  width: 20%;
+  text-align: center;
 }
 </style>

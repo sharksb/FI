@@ -24,7 +24,8 @@ import tclassTestDetail from '@/pages/teachers/tclassTestDetail'
 import testStasticDetail from '@/pages/teachers/testStasticDetail'
 import mangement from '@/pages/teachers/mangement'
 import sdfile from '@/components/teachers/internet_info'
-
+import tpassedTest from '@/pages/teachers/tpassedTest'
+import tinformationDetail from '@/pages/platform/tinformationDetail'
 
 // 学生
 import handHomework from '@/pages/students/handHomework'
@@ -106,6 +107,12 @@ export default new Router({
       name: 'informationDetail',
       component: informationDetail
     },
+    {
+      path: '/tinformationDetail',
+      name: 'tinformationDetail',
+      component: tinformationDetail
+    },
+
 
 
 
@@ -159,6 +166,11 @@ export default new Router({
       path: '/teachers/sdfile',
       name: 'sdfile',
       component: sdfile
+    },
+    {
+      path: '/teachers/tpassedTest',
+      name: 'tpassedTest',
+      component: tpassedTest
     },
 
     {

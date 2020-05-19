@@ -2,9 +2,8 @@
   <div class="currentTest">
     <van-nav-bar :title="testTitle" left-text="测试列表" left-arrow @click-left="onClickLeft" />
 
-    <van-form @submit="onSubmit">
+    <van-form>
       <studentTest :questions="questions"></studentTest>
-      <van-button native-type="submit" type="info" block class="reset">重新测试</van-button>
     </van-form>
   </div>
 </template>
@@ -72,52 +71,8 @@ export default {
   methods: {
     onClickLeft() {
       this.$router.push({
-        path: "/students/classTest",
-        query: { active: "passedTest" }
-      });
-    },
-
-    onSubmit(values) {
-      let testName = this.$route.query.testName;
-      let newquestions = this.questions;
-      let idCard = sessionStorage.getItem("idCard");
-      let index = null;
-      let questions = [];
-      for (index in newquestions) {
-        let indexs = parseInt(index) + 1;
-        console.log(newquestions[index]);
-        questions.push({
-          title: newquestions[index].title,
-          index: indexs,
-          yourAnswer: [values[indexs]]
-        });
-      }
-      console.log(questions);
-      let info = JSON.stringify({
-        idCard: idCard,
-        testName: testName,
-        questions: questions
-      });
-      console.log(info);
-      this.axios({
-        url: `${this.apiPath}test/sendOneStudentAnswer`,
-        method: "post",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        data: info
-      }).then(response => {
-        console.log(response);
-        let data = response.data;
-        if (data.code == 2) {
-          Toast(data.message);
-        } else if (data.code == 3) {
-          Toast(data.message);
-          this.$router.push({
-            path: "/students/passedTestAnswer",
-            query: { idCard: idCard, testName: testName }
-          });
-        }
+        path: "/teachers/releaseTest",
+        query: { active: "releaseTest" }
       });
     }
   }

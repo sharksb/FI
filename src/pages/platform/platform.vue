@@ -34,6 +34,7 @@ export default {
   },
   beforeMount() {
     this.active = this.$route.query.active;
+
   },
   methods: {}
 };

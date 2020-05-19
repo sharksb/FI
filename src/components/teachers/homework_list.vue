@@ -9,30 +9,11 @@
       <div class="homework_charge">
         <div class="hc_title">
           <h4>收取情况：</h4>
-          <router-link to="/teachers/fileCharge">
-            <h5>详情></h5>
-          </router-link>
+          <h5 @click="toDetail(homework.homeworkNmae)">详情></h5>
         </div>
-        <van-progress
-          :percentage="homework.chargePercent"
-          stroke-width="14"
-          :show-pivot="false"
-        />
-      </div>
-      <div class="homework_charge">
-        <div class="hc_title">
-          <h4>批改作业：</h4>
-          <router-link to="/teachers/reviseWork">
-            <h5>详情></h5>
-          </router-link>
-        </div>
-        <van-progress
-          :percentage="homework.revisePercent"
-          stroke-width="14"
-          :show-pivot="false"
-        />
       </div>
     </div>
+
   </div>
 </template>
 
@@ -41,17 +22,27 @@ import { Progress } from "vant";
 export default {
   data() {
     return {
-      homeworklist: [
-        {
-          homeworkNmae: "第一章作业",
-          chargePercent: 50,
-          revisePercent: 30
-        }
-      ]
+      homeworklist: []
     };
   },
   components: {
     [Progress.name]: Progress
+  },
+  beforeMount(){
+      this.axios({
+             method:'get',
+             url:`${this.apiPath}file/showHomeworkForTeacher`,
+         }).then((response=>{
+           console.log(response)
+           this.homeworklist = response.data
+         })).catch((err)=>{
+           console.log(err)
+         })
+  },
+  methods:{
+    toDetail(filename){
+      this.$router.push({path:'/teachers/fileCharge',query:{filename:filename}})
+    }
   }
 };
 </script>
@@ -66,16 +57,19 @@ export default {
 }
 .homework_title h3 {
   margin: 0;
+  font-size: 16px;
 }
 .homework_title img {
   margin-right: 10px;
+  width: 32px;
+  height: 32px;
 }
 
 .homework_box {
-  padding-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
   border-bottom: 1px solid #666;
   width: 75%;
-  margin: 0 auto;
+  margin: 0 auto 2rem;
 }
 
 .van-progress {
@@ -84,9 +78,10 @@ export default {
 
 .homework_charge h4 {
   text-align: left;
+  margin: 0;
 }
 .homework_charge h5 {
-  margin-bottom: 0.3rem;
+  margin: 0;
 }
 
 .hc_title {

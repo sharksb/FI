@@ -1,13 +1,17 @@
 <template>
   <div class="information">
     <!-- teacher -->
-    <div class="firstMan" v-if="personInfor == 'student'" @touchstart="enterDetail($event)">
-      <div class="firstMan_avater" >
+   
+    <div class="firstMan" v-if="personInfor == '学生'" >
+     <router-link  to="/tinformationDetail" >
+      <div class="firstMan_avater">
         <img src="@/assets/person/avater.png" alt />
         <span>授课老师</span>
       </div>
-      <mt-badge size="small" color="#888">30</mt-badge>
+      <mt-badge size="small" color="#888">{{teacherCount}}</mt-badge>
+      </router-link>
     </div>
+    
 
     <div class="teacherMan" v-else>
       <div class="firstMan">
@@ -25,7 +29,7 @@
         </div>
       </div>
       <div class="teacher_button">
-      <van-button class="platform_send" @click="sendMessage">发送</van-button>
+        <van-button class="platform_send" @click="sendMessage">发送</van-button>
       </div>
     </div>
     <!-- 所有学生 -->
@@ -34,14 +38,15 @@
         <van-collapse-item title="所有学生" name="1">
           <ul>
             <li
-              @touchstart="enterDetail($event)"
+              @touchstart="enterDetail(student.username,student.idCard)"
               @touchend="leaveDetail($event)"
               v-for="(student, index) in allStudents"
               :key="index"
             >
-              <div>
+              <div class="allStudent_item">
                 <img src="@/assets/person/avater.png" alt />
-                <span>{{student.name}}</span>
+                <span>{{student.username}}</span>
+                <p>{{student.idCard}}</p>
               </div>
             </li>
           </ul>
@@ -52,16 +57,16 @@
     <!-- 其他消息 -->
     <div
       class="otherInfor_box"
-      @touchstart="enterDetail($event)"
-      @touchend="leaveDetail($event)"
       v-for="(sendMessageStudent, index) in sendMessageStudents"
+      @touchstart="enterDetail(sendMessageStudent.sendusername,sendMessageStudent.sendidcard)"
+      @touchend="leaveDetail($event)"
       :key="index"
     >
       <div class="otherInfor">
         <div class="firstMan_avater">
-          <img :src="sendMessageStudent.avater" alt />
+          <img src="@/assets/person/avater.png" alt />
           <div>
-            <span>{{sendMessageStudent.name}}</span>
+            <span>{{sendMessageStudent.sendusername}}-{{sendMessageStudent.sendidcard}}</span>
             <p>{{sendMessageStudent.title}}</p>
           </div>
         </div>
@@ -73,42 +78,17 @@
 
 <script>
 import { Badge } from "mint-ui";
-import { Collapse, CollapseItem, Field, Button, Toast} from "vant";
+import { Collapse, CollapseItem, Field, Button, Toast } from "vant";
 import "mint-ui/lib/style.css";
 export default {
   data() {
     return {
-      personInfor:null,
+      personInfor: null,
       message: "",
       activeNames: ["1"],
-      allStudents: [
-        {
-          name: "小红",
-          avater: "@/assets/person/avater.png"
-        },
-        {
-          name: "小红",
-          avater: "@/assets/person/avater.png"
-        },
-        {
-          name: "小红",
-          avater: "@/assets/person/avater.png"
-        }
-      ],
-      sendMessageStudents: [
-        {
-          name: "小雨",
-          avater: "@/assets/person/avater.png",
-          title: "在吗",
-          count: 13
-        },
-        {
-          name: "小雨",
-          avater: "@/assets/person/avater.png",
-          title: "在干嘛",
-          count: 1
-        }
-      ]
+      allStudents: [],
+      sendMessageStudents: [],
+      teacherCount: 0
     };
   },
   components: {
@@ -117,29 +97,97 @@ export default {
     [CollapseItem.name]: CollapseItem,
     [Field.name]: Field,
     [Button.name]: Button,
-    [Toast.name]: Toast,
+    [Toast.name]: Toast
   },
-    beforeMount() {
-    this.personInfor = sessionStorage.getItem("personInfor");
+  beforeMount() {
+    this.personInfor = sessionStorage.getItem("type");
+    let idCard = sessionStorage.getItem("idCard");
+    this.axios({
+      url: `${this.apiPath}platform/obtainAllStudent`,
+      method: "get"
+    })
+      .then(response => {
+        console.log(response);
+        let data = response.data;
+        if (data.code == 2) {
+          console.log(data);
+          this.allStudents = data.data;
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    this.axios({
+      url: `${this.apiPath}platform/obtainMessage?reciveidcard=${idCard}`,
+      method: "get"
+    })
+      .then(response => {
+        console.log(response);
+        let data = response.data;
+        if (data.code == 2) {
+          console.log(data);
+          this.sendMessageStudents = data.data;
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+      this.axios({
+      url: `${this.apiPath}platform/countTeacher`,
+      method: "get"
+    })
+      .then(response => {
+        console.log(response);
+        let data = response.data;
+        if (data.code == 2) {
+          console.log(data);
+          this.teacherCount = data.data;
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   },
   methods: {
-    enterDetail(e) {
-      e.currentTarget.className = "grayBg";
-       this.$router.push({path:"/informationDetail"})
+    enterDetail(username, idcard) {
+      this.$router.push({
+        path: "/informationDetail",
+        query: {
+          username,
+          idcard
+        }
+      });
     },
     leaveDetail(e) {
       e.currentTarget.className = "";
     },
     sendMessage() {
-      if(this.message == '') {
-         Toast('请输入内容')
-      }else {
-        Toast('发送成功')
+      if (this.message == "") {
+        Toast("请输入内容");
+      } else {
+        let sendData = JSON.stringify({
+          title: this.message
+        });
+        this.axios({
+          url: `${this.apiPath}platform/sendTeacher`,
+          headers: {
+            "Content-Type": "application/json"
+          },
+          method: "post",
+          data: sendData
+        })
+          .then(response => {
+            let data = response.data;
+            if (data.code == 2) {
+              Toast(data.message);
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
       }
-      console.log(this.message);
-      this.message = ''
-    },
-
+      this.message = "";
+    }
   }
 };
 </script>
@@ -151,6 +199,12 @@ p {
 .firstMan {
   width: 80%;
   margin: 20px auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.firstMan a {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -172,7 +226,7 @@ p {
 }
 
 .platform_message {
-    width: 100%;
+  width: 100%;
 }
 .platform_message .van-field {
   border-radius: 15px;
@@ -185,15 +239,15 @@ p {
   margin-right: 15px;
 }
 .teacherMan {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .teacher_button {
-    width: 80%;
-    margin: 10px auto 15px;
-    display: flex;
-    justify-content: flex-end;
+  width: 80%;
+  margin: 10px auto 15px;
+  display: flex;
+  justify-content: flex-end;
 }
 /*  */
 .allStudent {
@@ -214,6 +268,13 @@ p {
   width: 30px;
   height: 30px;
   margin-right: 20px;
+}
+.allStudent ul li span {
+  width: 30%;
+  display: inline-block;
+}
+.allStudent ul li p {
+  width: 50%;
 }
 
 .grayBg {

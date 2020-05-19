@@ -1,14 +1,9 @@
 <template>
   <div class="currentTest">
     <van-nav-bar title="当前测试" left-text="课堂测试" left-arrow @click-left="onClickLeft" />
-    <van-count-down :time="time" format="mm:ss"  @finish="finish">
-      <template v-slot="timeData">
-        <span class="item">{{ timeData.minutes }}</span>:
-        <span class="item">{{ timeData.seconds }}</span>
-      </template>
-    </van-count-down>
+    <h5>结束时间{{endTime}}</h5>
      <van-form @submit="onSubmit">
-    <studentTest></studentTest>
+    <studentTest :questions="questions"></studentTest>
      <van-button native-type="submit" type="info" block>提交</van-button>
      </van-form>
   </div>
@@ -20,7 +15,8 @@ import studentTest from "@/components/students/student_test";
 export default {
   data() {
     return {
-      time: 30*60*60
+      questions: null,
+      endTime:''
     };
   },
   components: {
@@ -30,6 +26,49 @@ export default {
     [Form.name]: Form,
     [Toast.name]: Toast,
     studentTest
+  },
+  beforeMount(){
+    let testName = this.$route.query.testName;
+    console.log(testName);
+    this.axios({
+      method: "get",
+      url: `${this.apiPath}test/obtainOneTest?testName=${testName}`
+    })
+      .then(reponse => {
+        console.log(reponse);
+        if (reponse.data.code == 1) {
+          Toast("测试不存在");
+        } else {
+          let data = reponse.data.data;
+          this.testTitle = data.testName;
+          let testQuestions = data.questions;
+          let questions = [];
+          let index = null;
+          for (index in testQuestions) {
+            console.log(index);
+            let opt = null;
+            if (testQuestions[index].selectedtype == "radio") {
+              opt = ["A", "B", "C", "D"];
+            } else if (testQuestions[index].selectedtype == "checkbox") {
+              opt = ["A", "B", "C", "D", "E", "F"];
+            }
+
+            questions.push({
+              type: testQuestions[index].selectedtype,
+              title: testQuestions[index].title,
+              option: testQuestions[index].option,
+              opt: opt,
+              index: parseInt(index) + 1
+            });
+            console.log(questions);
+            this.questions = questions;
+            this.endTime = data.endTime
+          }
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   },
   methods: {
     onClickLeft() {
@@ -43,10 +82,51 @@ export default {
         //  },2000)
     },
      onSubmit(values){
-          Toast('提交成功');
-         setTimeout(()=>{
-              this.$router.push({ path: "/students/currentTestAnswer" });
-         },2000)
+      let testName = this.$route.query.testName;
+      let newquestions = this.questions;
+      let idCard = sessionStorage.getItem("idCard");
+      let index = null;
+      let questions = [];
+      for (index in newquestions) {
+        let indexs = parseInt(index) + 1;
+        console.log(newquestions[index]);
+        questions.push({
+          title: newquestions[index].title,
+          index: indexs,
+          yourAnswer: [values[indexs]]
+        });
+      }
+      console.log(questions);
+      let info = JSON.stringify({
+        idCard: idCard,
+        testName: testName,
+        questions: questions
+      });
+      console.log(info);
+      this.axios({
+        url: `${this.apiPath}test/sendOneStudentAnswerCurrent`,
+        method: "post",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        data: info
+      }).then(response => {
+        console.log(response);
+        let data = response.data;
+        if (data.code == 2) {
+          Toast(data.message);
+        } else if (data.code == 3) {
+          Toast(data.message);
+          this.$router.push({
+            path: "/students/currentTestAnswer",
+            query: { idCard: idCard, testName: testName }
+          });
+        }
+      });
+        //   Toast('提交成功');
+        //  setTimeout(()=>{
+        //       this.$router.push({ path: "/students/currentTestAnswer" });
+        //  },2000)
       }
   }
 };
@@ -72,5 +152,9 @@ export default {
 .currentTest .van-button {
   width: 90%;
   margin: 30px auto 0;
+}
+.currentTest h5 {
+  font-size: 14px;
+  text-align: center;
 }
 </style>

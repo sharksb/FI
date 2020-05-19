@@ -30,7 +30,8 @@ export default {
            for(dataContent of reponse.data.data) {
               filelist.push({
                 filename: dataContent.testName,
-                time:dataContent.startTime
+                time:dataContent.startTime,
+                fileurl:'/teachers/tpassedTest'
               })
            }
            console.log(filelist)
