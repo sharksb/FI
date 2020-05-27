@@ -7,6 +7,7 @@
         name="telphone"
         label="手机号"
         placeholder="请输入手机号"
+        disabled
         type="tel"
         left-icon="phone-o"
         :rules="[{ required: true, message: '请输入正确的手机号',pattern:telPattern}]"
