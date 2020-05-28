@@ -10,8 +10,9 @@
         </div>
       </template>
       <div class="hwd_content">
-        <span class="correctAns">正确答案：{{questionAnswer.correctOption}}</span>
-        <span class="yourAns">你的答案：{{questionAnswer.yourAnswer}}</span>
+        <span class="correctAns">正确答案:<span v-for="(ansc,index) in questionAnswer.correctOption" :key="index">{{ansc}}&nbsp;</span></span>
+        <!-- {{questionAnswer.yourAnswer}}  -->
+        <span class="yourAns">你的答案:<span v-for="(ans,index) in questionAnswer.yourAnswer" :key="index">{{ans}}&nbsp;</span>  </span>
       </div>
     </van-panel>
 

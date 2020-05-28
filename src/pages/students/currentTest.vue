@@ -2,21 +2,22 @@
   <div class="currentTest">
     <van-nav-bar title="当前测试" left-text="课堂测试" left-arrow @click-left="onClickLeft" />
     <h5>结束时间{{endTime}}</h5>
-     <van-form @submit="onSubmit">
-    <studentTest :questions="questions"></studentTest>
-     <van-button native-type="submit" type="info" block>提交</van-button>
-     </van-form>
+    <van-form @submit="onSubmit">
+      <studentTest :questions="questions"></studentTest>
+      <van-button native-type="submit" type="info" block>提交</van-button>
+    </van-form>
   </div>
 </template>
 
 <script>
-import { NavBar, CountDown, Button, Form, Toast } from "vant";
+import { NavBar, CountDown, Button, Form, Toast, Dialog } from "vant";
 import studentTest from "@/components/students/student_test";
+import app from "@/api/app";
 export default {
   data() {
     return {
       questions: null,
-      endTime:''
+      endTime: ""
     };
   },
   components: {
@@ -27,7 +28,7 @@ export default {
     [Toast.name]: Toast,
     studentTest
   },
-  beforeMount(){
+  beforeMount() {
     let testName = this.$route.query.testName;
     console.log(testName);
     this.axios({
@@ -62,26 +63,38 @@ export default {
             });
             console.log(questions);
             this.questions = questions;
-            this.endTime = data.endTime
+            this.endTime = data.endTime;
           }
         }
+        return new Promise((resolve, reject) => {
+          resolve(reponse.data.data.endTime);
+        });
+      })
+      .then(endTime => {
+        let endTimes = new Date(endTime);
+        let replaceendTime = new Date(endTime);
+        let endTimeTost = app.transformChangeMinute(replaceendTime, 5);
+        let timeId = setInterval(() => {
+          let nowtime = new Date(app.transformMinutes(Date.now())).getTime();
+          if (nowtime == endTimeTost.getTime()) {
+            Dialog({ message: "距离测试提交时间只剩5分钟，请尽快提交" });
+          } else if (nowtime == endTimes.getTime()) {
+            Toast("测试已结束");
+            clearInterval(timeId);
+            this.$router.push({ path: "/students/classTest" });
+          }
+        }, 60000);
       })
       .catch(err => {
         console.log(err);
       });
   },
+
   methods: {
     onClickLeft() {
       this.$router.push({ path: "/sfeature" });
     },
-
-    finish(){
-         Toast('测试时间已到');
-        //  setTimeout(()=>{
-        //       this.$router.go(-1);
-        //  },2000)
-    },
-     onSubmit(values){
+    onSubmit(values) {
       let testName = this.$route.query.testName;
       let newquestions = this.questions;
       let idCard = sessionStorage.getItem("idCard");
@@ -93,7 +106,7 @@ export default {
         questions.push({
           title: newquestions[index].title,
           index: indexs,
-          yourAnswer: [values[indexs]]
+          yourAnswer: values[indexs]
         });
       }
       console.log(questions);
@@ -123,31 +136,27 @@ export default {
           });
         }
       });
-        //   Toast('提交成功');
-        //  setTimeout(()=>{
-        //       this.$router.push({ path: "/students/currentTestAnswer" });
-        //  },2000)
-      }
+    }
   }
 };
 </script>
 
 <style scoped>
-  .item {
-    display: inline-block;
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
-    margin-right: 5px;
-    color: #302a2a;
-    font-size: 14px;
-    text-align: center;
-    border: 1px solid #ddd4d4;
-  }
-  .van-count-down{
-      text-align: center;
-      margin: 1rem auto;
-  }
+.item {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  margin-right: 5px;
+  color: #302a2a;
+  font-size: 14px;
+  text-align: center;
+  border: 1px solid #ddd4d4;
+}
+.van-count-down {
+  text-align: center;
+  margin: 1rem auto;
+}
 
 .currentTest .van-button {
   width: 90%;

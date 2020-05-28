@@ -78,6 +78,7 @@ export default {
     },
 
     onSubmit(values) {
+      console.log(values)
       let testName = this.$route.query.testName;
       let newquestions = this.questions;
       let idCard = sessionStorage.getItem("idCard");
@@ -89,7 +90,7 @@ export default {
         questions.push({
           title: newquestions[index].title,
           index: indexs,
-          yourAnswer: [values[indexs]]
+          yourAnswer: values[indexs]
         });
       }
       console.log(questions);

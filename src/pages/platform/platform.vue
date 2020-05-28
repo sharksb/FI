@@ -5,7 +5,7 @@
         <platform></platform>
       </van-tab>
       <van-tab title="消息" name="message">
-        <information></information>
+        <information v-if="isLogin"></information>
       </van-tab>
     </van-tabs>
 
@@ -21,7 +21,8 @@ import toolbar from "@/components/toolbar";
 export default {
   data() {
     return {
-      active: ""
+      active: "",
+      isLogin:false
     };
   },
 
@@ -34,7 +35,7 @@ export default {
   },
   beforeMount() {
     this.active = this.$route.query.active;
-
+    this.isLogin = sessionStorage.getItem("isLogin")
   },
   methods: {}
 };

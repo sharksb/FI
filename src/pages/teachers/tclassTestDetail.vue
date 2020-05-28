@@ -82,13 +82,9 @@ export default {
       this.$router.push({ path: "/teachers/releaseTest" });
     },
     onAddOption(values) {
-      console.log(values);
       if (values.title == undefined) {
-        console.log("...");
         this.counts.push(this.radioSelect);
         this.indexCount = this.counts.length;
-        // console.log(this.radioSelect);
-        // console.log(this.counts);
         this.radioSelect = "";
       } else if (values.title == "") {
         Toast("请输入题目");
@@ -96,7 +92,8 @@ export default {
         let title = values.title;
         let note = values.note;
         let score = values.score;
-        let correctOption = [values.answer];
+        // 对answer做进一步的处理
+        let correctOption= values.answer.split("；")
         let indexCount = this.counts.length;
         let type = this.counts[indexCount - 1];
         let option = null;
@@ -107,7 +104,6 @@ export default {
             values.optionC,
             values.optionD
           ];
-          // let correctOption = [values.answer]
         } else if (type == "checkbox") {
           option = [
             values.optionA,
@@ -127,7 +123,6 @@ export default {
             values.optionF
           ];
         }
-        console.log(type);
         this.counts.push(this.radioSelect);
         let testObject = {
           index: this.counts.length - 1,
@@ -144,8 +139,7 @@ export default {
     },
     onReleaseTest(values) {
       if (values.name) {
-        console.log(values);
-
+        // console.log(values);
         let testName = this.timeSelect_name;
         let time = null;
         if (this.defineTime) {
@@ -153,13 +147,12 @@ export default {
         } else {
           time = this.timeSelect;
         }
-        console.log(this.questions);
+        console.log(this.questions)
         let testSchema = JSON.stringify({
           testName: testName,
           questions: this.questions,
           time: time
         });
-
         console.log(testSchema);
         this.axios({
           url: `${this.apiPath}test/realeaseTest`,

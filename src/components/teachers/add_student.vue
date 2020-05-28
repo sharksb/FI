@@ -56,10 +56,13 @@ export default {
   methods: {
     onSubmit(values) {
       console.log(values);
+      let studentName = values.studentName.trim()
+      let studentId = values.studentId.trim()
+      let classId = values.classId.trim()
       let data = qs.stringify({
-        studentName: values.studentName,
-        studentId: values.studentId,
-        classId:values.classId
+        studentName: studentName,
+        studentId: studentId,
+        classId:classId
       });
       this.axios({
         url: `${this.apiPath}user/addStudent`,
